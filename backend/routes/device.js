@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Device = require("../models/device.model");
 const address = require("address");
 
-function getMacAddress(id) {
+function getMacAddress() {
     return address.mac(function (err, addr) {
         console.log(addr);
         console.log(typeof addr);
@@ -19,13 +19,20 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
     const username = req.body.username;
     const devicename = req.body.devicename;
-    const devicemac = getMacAddress(req.params.id);
+    const devicemac = req.body.devicemac;
     const newDevice = new Device({ username, devicename, devicemac });
 
     newDevice
         .save()
         .then(() => res.json("Device Added!"))
         .catch((err) => res.status(400).json("Error: " + err));
+});
+
+// get the mac address of the user
+router.route("/mac").get((req, res) => {
+    Device.find()
+        .then(() => res.json(getMacAddress()))
+        .catch((err) => res.status(400).json("Erroe: " + err));
 });
 
 // get user details
@@ -60,4 +67,5 @@ router.route("/update/:id").post((req, res) => {
         .then(() => res.json("mac added!"))
         .catch((err) => res.status(400).json("Error: " + err));
 });
+
 module.exports = router;
