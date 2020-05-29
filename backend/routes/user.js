@@ -6,6 +6,7 @@ const passportConfig = require("../passport");
 const JWT = require("jsonwebtoken");
 
 const User = require("../models/user.model");
+const Device = require("../models/device.model");
 
 const signToken = (userID) => {
     return JWT.sign(
@@ -62,7 +63,7 @@ router
     .post(passport.authenticate("local", { session: false }), (req, res) => {
         const { _id, username } = req.user;
         const token = signToken(_id);
-        res.cookie("access_token", token, { httpOnly: true, sameSite: true });
+        res.cookie("access_token", token, { httpsOnly: true, sameSite: true });
         res.status(200).json({
             isAuthenticated: true,
             user: username,
@@ -76,4 +77,39 @@ router
         res.json({ user: { username: "" }, success: true });
     });
 
+router
+    .route("/authenticated")
+    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+        const { username } = req.user;
+        res.status(200).json({
+            isAuthenticated: true,
+            user: username,
+        });
+    });
+
+router
+    .route("/device")
+    .post(passport.authenticate("jwt", { session: false }), (req, res) => {
+        const device = new Device(req.body);
+        device.save((err) => {
+            if (err) {
+                res.status(500).json({
+                    message: { msgBody: "Error", msgError: true },
+                });
+            } else {
+                req.user.devices.push(device);
+                req.user.save((err) => {
+                    if (err) {
+                        res.status(500).json({
+                            message: { msgBody: "Error", msgError: true },
+                        });
+                    } else {
+                        res.status(200).json({
+                            message: { msgBody: "Success!!", msgError: true },
+                        });
+                    }
+                });
+            }
+        });
+    });
 module.exports = router;

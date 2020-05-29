@@ -20,7 +20,7 @@ passport.use(
             secretOrKey: "mj",
         },
         (payload, done) => {
-            User.findById({ _id: payload.sub }, (err, used) => {
+            User.findById({ _id: payload.sub }, (err, user) => {
                 if (err) {
                     return done(err, false);
                 }
