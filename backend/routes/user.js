@@ -115,8 +115,27 @@ router
         });
     });
 
-// router.route("/devices").get;
-// router.route('/mac').get(passport.authenticate("jwt", { session: false }), (req,res)=>{
-//     const
-// })
+router
+    .route("/devices")
+    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+        User.findById({ _id: req.user._id })
+            .populate("devices")
+            .exec((err, document) => {
+                if (err) {
+                    console.log(err);
+                    res.status(500).json({
+                        message: {
+                            msgBody: "Error has occured",
+                            msgError: true,
+                        },
+                    });
+                } else {
+                    res.status(200).json({
+                        devices: document.devices,
+                        authenticated: true,
+                    });
+                }
+            });
+    });
+
 module.exports = router;

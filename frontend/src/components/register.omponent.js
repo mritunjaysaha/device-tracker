@@ -73,7 +73,7 @@ const Register = (props) => {
                         placeholder="Enter Password"
                     />
                     <button className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg">
-                        Log In
+                        Sign Up
                     </button>
                     {message ? <Message message={message} /> : null}
                 </form>

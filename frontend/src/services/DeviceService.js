@@ -4,7 +4,7 @@ export default {
             if (res.status !== 401) {
                 return res.json().then((data) => data);
             } else {
-                return { message: { msgBody: "UnAuthorized" }, msgError: true };
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
             }
         });
     },
@@ -19,7 +19,7 @@ export default {
             if (res.status !== 401) {
                 return res.json().then((data) => data);
             } else {
-                return { message: { msgBody: "UnAuthorized" }, msgError: true };
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
             }
         });
     },

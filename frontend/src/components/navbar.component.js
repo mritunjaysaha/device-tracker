@@ -40,8 +40,8 @@ const Navbar = (props) => {
                     <li className="nav-item nav-link">Home</li>
                 </Link>
 
-                <Link to="/todos">
-                    <li className="nav-item nav-link">Todos</li>
+                <Link to="/devices">
+                    <li className="nav-item nav-link">Devices</li>
                 </Link>
                 <button
                     type="button"

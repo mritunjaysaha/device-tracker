@@ -15,17 +15,34 @@ const Login = (props) => {
     const onSubmit = (e) => {
         e.preventDefault();
         AuthService.login(user).then((data) => {
-            const { isAuthenticated, user, message } = data;
+            const { isAuthenticated, user } = data;
             if (isAuthenticated) {
                 authContext.setUser(user);
                 authContext.setIsAuthenticated(isAuthenticated);
-                props.history.push("/device");
+                props.history.push("/devices");
+                // const message = {
+                //     message: {
+                //         msgBody: "Successfully Login",
+                //         msgError: false,
+                //     },
+                // };
+                // setMessage(message);
             } else {
+                const message = {
+                    message: {
+                        msgBody: "Error Login",
+                        msgError: true,
+                    },
+                };
                 setMessage(message);
+                resetForm();
             }
         });
     };
 
+    const resetForm = () => {
+        setUser({ username: "", password: "" });
+    };
     return (
         <section className="text-gray-700 body-font">
             <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
@@ -40,7 +57,7 @@ const Login = (props) => {
                         tousled etsy austin.
                     </p>
                 </div>
-                <div
+                <form
                     onSubmit={onSubmit}
                     className="lg:w-2/6 md:w-1/2 bg-gray-200 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0"
                 >
@@ -49,25 +66,25 @@ const Login = (props) => {
                     </h2>
                     <input
                         className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-                        placeholder="Email"
-                        type="email"
+                        type="text"
+                        name="username"
+                        value={user.username}
                         onChange={onChange}
+                        placeholder="Enter Username"
                     />
                     <input
                         className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-                        placeholder="Password"
                         type="password"
+                        name="password"
+                        value={user.password}
                         onChange={onChange}
+                        placeholder="Enter Password"
                     />
                     <button className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg">
                         Log In
                     </button>
-                    <p className="text-xs text-gray-500 mt-3">
-                        Literally you probably haven't heard of them jean
-                        shorts.
-                        {message ? <Message message={message} /> : null}
-                    </p>
-                </div>
+                    {message ? <Message message={message} /> : null}
+                </form>
             </div>
         </section>
     );
