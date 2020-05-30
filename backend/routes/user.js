@@ -139,4 +139,12 @@ router
             });
     });
 
+router
+    .route("/mac")
+    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+        const mac = address.mac(function (err, addr) {
+            return addr;
+        });
+        res.status(200).json(mac);
+    });
 module.exports = router;

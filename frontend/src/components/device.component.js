@@ -8,6 +8,7 @@ const Device = () => {
     const [device, setDevice] = useState({ name: "" });
     const [devices, setDevices] = useState([]);
     const [message, setMessage] = useState(null);
+    const [mac, setMac] = useState({ mac: "" });
     const authContext = useContext(AuthContext);
 
     useEffect(() => {
@@ -52,8 +53,18 @@ const Device = () => {
         setDevice({ name: "" });
     };
 
-    const onMacAddr = () => {};
-    const getMacAddr = () => {};
+    const onMacAddr = (e) => {
+        setMac({ mac: e.target.value });
+    };
+    const getMacAddr = (e) => {
+        e.preventDefault();
+        console.log("getMacAddr");
+        DeviceService.getMac().then((mac) => {
+            console.log("mac: ", mac);
+            setMac(mac);
+            setMessage(message);
+        });
+    };
 
     const onCoordinates = () => {};
     const getCoordinates = () => {};
@@ -84,11 +95,14 @@ const Device = () => {
                             className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                             type="text"
                             name="username"
-                            value={device.mac}
+                            value={mac}
                             onChange={onMacAddr}
                             placeholder="Get mac address"
                         />
-                        <button className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg">
+                        <button
+                            onClick={getMacAddr}
+                            className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg"
+                        >
                             Get mac address
                         </button>
                     </div>

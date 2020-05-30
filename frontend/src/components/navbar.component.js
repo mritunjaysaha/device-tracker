@@ -48,7 +48,7 @@ const Navbar = (props) => {
                     className="btn btn-link nav-item nav-link"
                     onClick={onClickLogoutHandler}
                 >
-                    Logout
+                    <Link to="/">Logout</Link>
                 </button>
             </>
         );

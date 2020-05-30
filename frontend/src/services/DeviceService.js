@@ -24,4 +24,14 @@ export default {
             }
         });
     },
+
+    getMac: () => {
+        return fetch("/user/mac").then((res) => {
+            if (res.status !== 401) {
+                return res.json().then((data) => data);
+            } else {
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
+            }
+        });
+    },
 };
