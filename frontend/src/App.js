@@ -6,6 +6,8 @@ import Home from "./components/home.component";
 import Login from "./components/login.component";
 import Register from "./components/register.omponent";
 import Device from "./components/device.component";
+import Dashboard from "./components/dashboard.component";
+
 function App() {
     return (
         <Router>
@@ -14,6 +16,7 @@ function App() {
             <Route path="/login" component={Login}></Route>
             <Route path="/register" component={Register}></Route>
             <Route path="/devices" component={Device}></Route>
+            <Route path="/dashboard" component={Dashboard}></Route>
         </Router>
     );
 }

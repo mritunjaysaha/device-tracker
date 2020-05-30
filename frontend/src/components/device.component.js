@@ -2,13 +2,15 @@ import React, { useState, useContext, useEffect } from "react";
 import DeviceService from "../services/DeviceService";
 import { AuthContext } from "../context/AuthContext";
 import Message from "./message.component";
-import DeviceItem from "./deviceItem.component";
 
 const Device = () => {
-    const [device, setDevice] = useState({ name: "" });
+    const [device, setDevice] = useState("");
     const [devices, setDevices] = useState([]);
     const [message, setMessage] = useState(null);
-    const [mac, setMac] = useState({ mac: "" });
+    const [mac, setMac] = useState("");
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
+    const [accuracy, setAccuracy] = useState(0);
     const authContext = useContext(AuthContext);
 
     useEffect(() => {
@@ -66,8 +68,29 @@ const Device = () => {
         });
     };
 
-    const onCoordinates = () => {};
-    const getCoordinates = () => {};
+    const onCoordinates = (e) => {
+        setLatitude({ lat: e.target.value });
+        setLongitude({ lng: e.target.value });
+    };
+    const getCoordinates = (e) => {
+        e.preventDefault();
+
+        {
+            // Checking whether the browser supports geolocation
+            if ("geolocation" in navigator) {
+                const gps = navigator.geolocation.getCurrentPosition(function (
+                    position
+                ) {
+                    console.log("latitude: " + position.coords.latitude);
+                    console.log("longitude: " + position.coords.longitude);
+                    console.log("accuracy: " + position.coords.accuracy);
+                    setLatitude({ lat: position.coords.latitude });
+                    setLongitude({ lng: position.coords.longitude });
+                    setAccuracy({ acc: position.coords.accuracy });
+                });
+            }
+        }
+    };
 
     return (
         <section class="text-gray-700 body-font">
@@ -112,20 +135,23 @@ const Device = () => {
                                 className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                                 type="text"
                                 name="username"
-                                value={device.lat}
+                                value={latitude}
                                 onChange={onCoordinates}
-                                placeholder="91.000000"
+                                placeholder="Latitude"
                             />
                         </div>
                         <input
                             className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                             type="text"
                             name="username"
-                            value={device.lat}
+                            value={longitude}
                             onChange={onCoordinates}
-                            placeholder="26.000000"
+                            placeholder="Longitude"
                         />
-                        <button className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg">
+                        <button
+                            onClick={getCoordinates}
+                            className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg"
+                        >
                             Get Coordinates
                         </button>
                     </div>

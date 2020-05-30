@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { AuthContext } from "../context/AuthContext";
 
-const Navbar = (props) => {
+const Navbar = () => {
     const { isAuthenticated, setIsAuthenticated, setUser } = useContext(
         AuthContext
     );
@@ -20,14 +20,14 @@ const Navbar = (props) => {
     const unauthenticatedNavBar = () => {
         return (
             <>
-                <Link to="/">
-                    <li className="nav-item nav-link">Home</li>
+                <Link className="mr-5 hover:text-gray-900" to="/">
+                    Home
                 </Link>
-                <Link to="/login">
-                    <li className="nav-item nav-link">Login</li>
+                <Link className="mr-5 hover:text-gray-900" to="/login">
+                    Login
                 </Link>
-                <Link to="/register">
-                    <li className="nav-item nav-link">Register</li>
+                <Link className="mr-5 hover:text-gray-900" to="/register">
+                    Register
                 </Link>
             </>
         );
@@ -36,37 +36,35 @@ const Navbar = (props) => {
     const authenticatedNavBar = () => {
         return (
             <>
-                <Link to="/">
-                    <li className="nav-item nav-link">Home</li>
+                <Link to="/dashboard" className="mr-5 hover:text-gray-900">
+                    Dashboard
                 </Link>
 
-                <Link to="/devices">
-                    <li className="nav-item nav-link">Devices</li>
+                <Link to="/devices" className="mr-5 hover:text-gray-900">
+                    Devices
                 </Link>
-                <button
-                    type="button"
-                    className="btn btn-link nav-item nav-link"
-                    onClick={onClickLogoutHandler}
-                >
-                    <Link to="/">Logout</Link>
+                <button type="button" onClick={onClickLogoutHandler}>
+                    <Link to="/" className="mr-5 hover:text-gray-900">
+                        Logout
+                    </Link>
                 </button>
             </>
         );
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link to="/">
-                <div className="navbar-brand">DevTrkr</div>
-            </Link>
-            <div className="collapse navbar-collapse" id="navbarText">
-                <ul className="navbar-nav mr-auto">
+        <header className="text-gray-700 body-font">
+            <div className="container mx-auto flex flex-wrap p-2 flex-col md:flex-row items-center">
+                <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                    <span className="ml-3 text-xl">DevTrkr</span>
+                </a>
+                <nav className="md:ml-auto flex flex-wrap justify-center">
                     {!isAuthenticated
                         ? unauthenticatedNavBar()
                         : authenticatedNavBar()}
-                </ul>
+                </nav>
             </div>
-        </nav>
+        </header>
     );
 };
 
