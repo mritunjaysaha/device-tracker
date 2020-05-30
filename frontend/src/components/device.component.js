@@ -135,7 +135,7 @@ const Device = () => {
                                 className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                                 type="text"
                                 name="username"
-                                value={latitude}
+                                value={latitude.lat}
                                 onChange={onCoordinates}
                                 placeholder="Latitude"
                             />
@@ -144,7 +144,7 @@ const Device = () => {
                             className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                             type="text"
                             name="username"
-                            value={longitude}
+                            value={longitude.lng}
                             onChange={onCoordinates}
                             placeholder="Longitude"
                         />
