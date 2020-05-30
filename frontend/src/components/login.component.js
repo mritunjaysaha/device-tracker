@@ -20,13 +20,6 @@ const Login = (props) => {
                 authContext.setUser(user);
                 authContext.setIsAuthenticated(isAuthenticated);
                 props.history.push("/devices");
-                // const message = {
-                //     message: {
-                //         msgBody: "Successfully Login",
-                //         msgError: false,
-                //     },
-                // };
-                // setMessage(message);
             } else {
                 const message = {
                     message: {

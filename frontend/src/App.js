@@ -13,7 +13,7 @@ function App() {
             <Route path="/" exact component={Home}></Route>
             <Route path="/login" component={Login}></Route>
             <Route path="/register" component={Register}></Route>
-            <Route path="/device" component={Device}></Route>
+            <Route path="/devices" component={Device}></Route>
         </Router>
     );
 }

@@ -98,6 +98,7 @@ router
                 res.status(500).json({
                     message: { msgBody: "Error", msgError: true },
                 });
+                console.log(err);
             } else {
                 req.user.devices.push(device);
                 req.user.save((err) => {

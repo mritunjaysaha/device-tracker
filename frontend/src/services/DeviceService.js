@@ -1,15 +1,16 @@
 export default {
     getDevices: () => {
-        return fetch("/user/device").then((res) => {
+        return fetch("/user/devices").then((res) => {
             if (res.status !== 401) {
                 return res.json().then((data) => data);
             } else {
-                return { message: { msgBody: "unAuthorized" }, msgError: true };
+                return { message: { msgBody: "UnAuthorized" }, msgError: true };
             }
         });
     },
-    postDevices: (device) => {
-        return fetch("/user/todo", {
+
+    postDevice: (device) => {
+        return fetch("/user/device", {
             method: "post",
             body: JSON.stringify(device),
             headers: {
@@ -19,7 +20,7 @@ export default {
             if (res.status !== 401) {
                 return res.json().then((data) => data);
             } else {
-                return { message: { msgBody: "unAuthorized" }, msgError: true };
+                return { message: { msgBody: "UnAuthorized" }, msgError: true };
             }
         });
     },
