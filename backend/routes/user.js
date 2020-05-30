@@ -1,3 +1,5 @@
+const address = require("address");
+
 const express = require("express");
 const router = express.Router();
 
@@ -112,4 +114,9 @@ router
             }
         });
     });
+
+router.route("/devices").get;
+// router.route('/mac').get(passport.authenticate("jwt", { session: false }), (req,res)=>{
+//     const
+// })
 module.exports = router;

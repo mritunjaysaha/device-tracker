@@ -4,7 +4,7 @@ import AuthService from "../services/AuthService";
 import { AuthContext } from "../context/AuthContext";
 
 const Navbar = (props) => {
-    const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(
+    const { isAuthenticated, setIsAuthenticated, setUser } = useContext(
         AuthContext
     );
 
