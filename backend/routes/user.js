@@ -115,7 +115,7 @@ router
         });
     });
 
-router.route("/devices").get;
+// router.route("/devices").get;
 // router.route('/mac').get(passport.authenticate("jwt", { session: false }), (req,res)=>{
 //     const
 // })

@@ -23,7 +23,7 @@ const Register = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        AuthService.login(user).then((data) => {
+        AuthService.register(user).then((data) => {
             const { message } = data;
             setMessage(message);
             resetForm();
@@ -36,35 +36,6 @@ const Register = (props) => {
     };
 
     return (
-        // <div className="container">
-        //     <form onSubmit={onSubmit} className="form-group">
-        //         <h3 class="text-center">Register</h3>
-        //         <label htmlFor="username" className="sr-only">
-        //             Username:
-        //         </label>
-        //         <input
-        //             type="text"
-        //             name="username"
-        //             onChange={onChange}
-        //             className="form-control"
-        //             placeholder="mack@gmail.com"
-        //         />
-        //         <label htmlFor="password" className="sr-only">
-        //             Password:
-        //         </label>
-        //         <input
-        //             type="password"
-        //             name="password"
-        //             onChange={onChange}
-        //             className="form-control"
-        //             placeholder="!Mp$t@nt"
-        //         />
-        //         <button className="btn btn-lg btn-primary btn-block">
-        //             Register
-        //         </button>
-        //         {message ? <Message message={message} /> : null}
-        //     </form>
-        // </div>
         <section className="text-gray-700 body-font">
             <div className="container px-5 py-24 mx-auto flex flex-wrap items-center">
                 <div className="lg:w-3/5 md:w-1/2 md:pr-16 lg:pr-0 pr-0">
@@ -87,23 +58,22 @@ const Register = (props) => {
                     </h2>
                     <input
                         className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-                        placeholder="Email"
-                        type="email"
+                        type="text"
+                        name="username"
+                        value={user.username}
                         onChange={onChange}
-                        name="email"
+                        placeholder="Enter Username"
                     />
                     <input
+                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                         type="password"
                         name="password"
+                        value={user.password}
                         onChange={onChange}
-                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-                        placeholder="Password"
+                        placeholder="Enter Password"
                     />
-                    <button
-                        className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg"
-                        type="submit"
-                    >
-                        Sign Up
+                    <button className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg">
+                        Log In
                     </button>
                     {message ? <Message message={message} /> : null}
                 </form>
