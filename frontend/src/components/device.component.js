@@ -4,25 +4,28 @@ import { AuthContext } from "../context/AuthContext";
 import Message from "./message.component";
 
 const Device = () => {
-    const [device, setDevice] = useState("");
+    const [device, setDevice] = useState({});
     const [devices, setDevices] = useState([]);
     const [message, setMessage] = useState(null);
     const [mac, setMac] = useState("");
-    const [latitude, setLatitude] = useState("");
-    const [longitude, setLongitude] = useState("");
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
     const [accuracy, setAccuracy] = useState(0);
     const authContext = useContext(AuthContext);
 
     useEffect(() => {
         DeviceService.getDevices().then((data) => {
             setDevice(data.devices);
-            console.log(device);
-            console.log(devices);
         });
     }, []);
 
     const onSubmit = (e) => {
         e.preventDefault();
+        device.mac = mac;
+        device.latitude = latitude;
+        device.longitude = longitude;
+        device.accuracy = accuracy;
+
         console.log("device: ", device);
         console.log("devices: ", devices);
         DeviceService.postDevice(device).then((data) => {
@@ -37,7 +40,6 @@ const Device = () => {
                 });
             } else if (message.msgBody === "unAuthorized") {
                 setMessage(message);
-                console.log(message);
                 authContext.setUser({ username: "" });
                 authContext.setIsAuthenticated(false);
             } else {
@@ -84,9 +86,9 @@ const Device = () => {
                     console.log("latitude: " + position.coords.latitude);
                     console.log("longitude: " + position.coords.longitude);
                     console.log("accuracy: " + position.coords.accuracy);
-                    setLatitude({ lat: position.coords.latitude });
-                    setLongitude({ lng: position.coords.longitude });
-                    setAccuracy({ acc: position.coords.accuracy });
+                    setLatitude(position.coords.latitude);
+                    setLongitude(position.coords.longitude);
+                    setAccuracy(position.coords.accuracy);
                 });
             }
         }
@@ -135,7 +137,7 @@ const Device = () => {
                                 className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                                 type="text"
                                 name="username"
-                                value={latitude.lat}
+                                value={latitude}
                                 onChange={onCoordinates}
                                 placeholder="Latitude"
                             />
@@ -144,7 +146,7 @@ const Device = () => {
                             className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                             type="text"
                             name="username"
-                            value={longitude.lng}
+                            value={longitude}
                             onChange={onCoordinates}
                             placeholder="Longitude"
                         />

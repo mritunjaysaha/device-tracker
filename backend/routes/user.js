@@ -82,12 +82,39 @@ router
 router
     .route("/authenticated")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        const { username } = req.user;
+        const { username, _id } = req.user;
         res.status(200).json({
             isAuthenticated: true,
             user: username,
+            id: _id,
         });
     });
+
+// get the details of a user
+router
+    .route("/users")
+    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+        User.find()
+            .then((user) => res.json(user))
+            .catch((err) => res.status(400).json("Error: " + err));
+    });
+router
+    .route("/:id")
+    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+        User.findById(req.params.id)
+            .then((data) => res.json(data.devices))
+            .catch((err) =>
+                res.status(500).json({
+                    message: { msgBody: "Error", msgError: true },
+                })
+            );
+    });
+
+router.route("/device/:id").get((req, res) => {
+    Device.findById(req.params.id)
+        .then((data) => res.json(data))
+        .catch((err) => res.status(400).json(err));
+});
 
 router
     .route("/device")
