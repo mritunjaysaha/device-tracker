@@ -90,6 +90,8 @@ const Device = () => {
                     setLongitude(position.coords.longitude);
                     setAccuracy(position.coords.accuracy);
                 });
+            } else {
+                alert("Browser does not support geolocation");
             }
         }
     };

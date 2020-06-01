@@ -9,7 +9,7 @@ const JWT = require("jsonwebtoken");
 
 const User = require("../models/user.model");
 const Device = require("../models/device.model");
-
+const Details = require("../models/devicedetails.model");
 const signToken = (userID) => {
     return JWT.sign(
         {
@@ -19,7 +19,14 @@ const signToken = (userID) => {
         "mj"
     );
 };
-
+router
+    .route("/mac")
+    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+        const mac = address.mac(function (err, addr) {
+            return addr;
+        });
+        res.status(200).json(mac);
+    });
 router.route("/register").post((req, res) => {
     const { username, password } = req.body;
 
@@ -89,33 +96,6 @@ router
             id: _id,
         });
     });
-
-// get the details of a user
-router
-    .route("/users")
-    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        User.find()
-            .then((user) => res.json(user))
-            .catch((err) => res.status(400).json("Error: " + err));
-    });
-router
-    .route("/:id")
-    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        User.findById(req.params.id)
-            .then((data) => res.json(data.devices))
-            .catch((err) =>
-                res.status(500).json({
-                    message: { msgBody: "Error", msgError: true },
-                })
-            );
-    });
-
-router.route("/device/:id").get((req, res) => {
-    Device.findById(req.params.id)
-        .then((data) => res.json(data))
-        .catch((err) => res.status(400).json(err));
-});
-
 router
     .route("/device")
     .post(passport.authenticate("jwt", { session: false }), (req, res) => {
@@ -143,8 +123,9 @@ router
         });
     });
 
+// sends the details of devices to the user
 router
-    .route("/devices")
+    .route("/devicelist")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
         User.findById({ _id: req.user._id })
             .populate("devices")
@@ -166,12 +147,4 @@ router
             });
     });
 
-router
-    .route("/mac")
-    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        const mac = address.mac(function (err, addr) {
-            return addr;
-        });
-        res.status(200).json(mac);
-    });
 module.exports = router;

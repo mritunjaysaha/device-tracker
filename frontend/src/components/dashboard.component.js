@@ -1,35 +1,48 @@
 import React, { useState, useEffect } from "react";
+
 import DeviceService from "../services/DeviceService";
-import AuthService from "../services/AuthService";
-const DeviceItem = (props) => {
-    return (
-        <ul>
-            <li>{props.device.name}</li>
-            <li>{props.device.mac}</li>
-        </ul>
-    );
-};
+// import AuthService from "../services/AuthService";
+import DeviceItem from "./deviceItem.component";
 
 const Dashboard = () => {
-    const [id, setId] = useState("");
-    const [devices, setDevices] = useState([]);
+    const [deviceList, setDeviceList] = useState([]);
 
     useEffect(() => {
-        AuthService.isAuthenticated().then((data) => {
-            if (data.isAuthenticated === true) {
-                console.log(data.id);
-                setId(data.id);
-            }
+        DeviceService.getDeviceList().then((data) => {
+            setDeviceList(data.devices);
+            // console.log(data);
         });
     });
 
-    const getUser = () => {
-        console.log(id);
+    const getLog = () => {
+        console.log(deviceList);
+        // deviceList.map((device) => {
+        //     console.log(device.name);
+        // });
+        // for(let device in deviceList){
+
+        // }
     };
+
+    let list;
+    if (deviceList.length > 0) {
+        list = (
+            <div>
+                {deviceList.map((device) => {
+                    return <DeviceItem key={device._id} device={device} />;
+                })}
+            </div>
+        );
+    } else {
+        list = <h1>Hello, World</h1>;
+    }
     return (
         <section className="text-gray-700 body-font relative">
-            <div className="container px-5 py-12 mx-auto flex"></div>
-            <button onClick={getUser}>USER</button>
+            <h1>Dashboard</h1>
+            <div className="container px-5 py-12 mx-auto flex">
+                <button onClick={getLog}>LOG</button>
+            </div>
+            <div>{list}</div>
         </section>
     );
 };
