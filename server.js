@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
+const path = require("path");
 
 app.use(cookieParser());
 app.use(express.json());
@@ -23,6 +24,13 @@ connection.once("open", () => {
 
 const usersRouter = require("./routes/user");
 app.use("/user", usersRouter);
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("frontend/build"));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    });
+}
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
