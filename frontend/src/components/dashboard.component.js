@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import DeviceService from "../services/DeviceService";
 // import AuthService from "../services/AuthService";
 import DeviceItem from "./deviceItem.component";
-import { MapContainer } from "./map.component";
+import GoogleApiWrapper from "./map.component";
 const Dashboard = () => {
     const [deviceList, setDeviceList] = useState([]);
 
@@ -44,7 +44,7 @@ const Dashboard = () => {
         //     </div>
         //     <div>{list}</div>
         // </section>
-        <MapContainer />
+        <GoogleApiWrapper />
     );
 };
 
