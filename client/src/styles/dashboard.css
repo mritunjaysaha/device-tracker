@@ -1,0 +1,10 @@
+.dashboard {
+    display: flex;
+    flex-direction: row;
+}
+.map {
+    display: block;
+}
+.devicelist {
+    margin-left: 70%;
+}

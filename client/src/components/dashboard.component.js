@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-
+import styled from "styled-components";
 import DeviceService from "../services/DeviceService";
-// import AuthService from "../services/AuthService";
 import DeviceItem from "./deviceItem.component";
 import GoogleApiWrapper from "./map.component";
+import "../styles/dashboard.css";
+const DeviceListDiv = styled.div``;
+
 const Dashboard = () => {
     const [deviceList, setDeviceList] = useState([]);
 
@@ -37,14 +39,18 @@ const Dashboard = () => {
         list = <h1>Hello, World</h1>;
     }
     return (
-        // <section className="text-gray-700 body-font relative">
-        //     <h1>Dashboard</h1>
-        //     <div className="container px-5 py-12 mx-auto flex">
-        //         <button onClick={getLog}>LOG</button>
-        //     </div>
-        //     <div>{list}</div>
-        // </section>
-        <GoogleApiWrapper />
+        <div className="dashboard">
+            <GoogleApiWrapper className="map" />
+            <DeviceListDiv className="devicelist">
+                <section className="text-gray-700 body-font relative">
+                    <h1>Dashboard</h1>
+                    <div className="container px-5 py-12 mx-auto flex">
+                        <button onClick={getLog}>LOG</button>
+                    </div>
+                    <div>{list}</div>
+                </section>
+            </DeviceListDiv>
+        </div>
     );
 };
 
