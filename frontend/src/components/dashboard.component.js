@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import DeviceService from "../services/DeviceService";
 // import AuthService from "../services/AuthService";
 import DeviceItem from "./deviceItem.component";
-
+import { MapContainer } from "./map.component";
 const Dashboard = () => {
     const [deviceList, setDeviceList] = useState([]);
 
@@ -37,13 +37,14 @@ const Dashboard = () => {
         list = <h1>Hello, World</h1>;
     }
     return (
-        <section className="text-gray-700 body-font relative">
-            <h1>Dashboard</h1>
-            <div className="container px-5 py-12 mx-auto flex">
-                <button onClick={getLog}>LOG</button>
-            </div>
-            <div>{list}</div>
-        </section>
+        // <section className="text-gray-700 body-font relative">
+        //     <h1>Dashboard</h1>
+        //     <div className="container px-5 py-12 mx-auto flex">
+        //         <button onClick={getLog}>LOG</button>
+        //     </div>
+        //     <div>{list}</div>
+        // </section>
+        <MapContainer />
     );
 };
 
