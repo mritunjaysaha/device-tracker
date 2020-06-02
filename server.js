@@ -9,8 +9,9 @@ require("dotenv").config();
 app.use(cookieParser());
 app.use(express.json());
 
-// app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static(path.join(__dirname, "client", "build")));
 const uri =
+    process.env.MONGOLAB_ORANGE_URI ||
     "mongodb+srv://device:device@cluster-7wx2i.mongodb.net/test?retryWrites=true&w=majority";
 
 mongoose.connect(uri, {
@@ -31,9 +32,9 @@ app.use("/user", usersRouter);
 
 // }
 
-// app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-// });
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
