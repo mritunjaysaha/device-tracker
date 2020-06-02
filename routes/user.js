@@ -1,4 +1,5 @@
-const address = require("address");
+// const address = require("address");
+const getmac = require("getmac");
 
 const express = require("express");
 const router = express.Router();
@@ -22,9 +23,14 @@ const signToken = (userID) => {
 router
     .route("/mac")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        const mac = address.mac(function (err, addr) {
-            return addr;
-        });
+        // const mac = address.mac(function (err, addr) {
+        //     return addr;
+        // });
+        // res.status(200).json(mac);
+        const callmac = () => {
+            return getmac.default();
+        };
+        const mac = callmac();
         res.status(200).json(mac);
     });
 router.route("/register").post((req, res) => {
