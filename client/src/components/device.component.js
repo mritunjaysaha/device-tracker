@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import DeviceService from "../services/DeviceService";
 import { AuthContext } from "../context/AuthContext";
 import Message from "./message.component";
-
+import { machineId, machineIdSync } from "node-machine-id";
 const Device = () => {
     const [device, setDevice] = useState({});
     const [devices, setDevices] = useState([]);
@@ -62,25 +62,10 @@ const Device = () => {
     };
     const getMacAddr = (e) => {
         e.preventDefault();
-        console.log("getMacAddr");
-        DeviceService.getMac().then((mac) => {
-            console.log("mac: ", mac);
-            setMac(mac);
-            setMessage(message);
-        });
-
-        // fetch("https://api.ipify.org?format=jsonp?callback=?", {
-        //     method: "GET",
-        //     headers: {},
-        // })
-        //     .then((res) => {
-        //         return res.text();
-        //     })
-        //     .then((ip) => {
-        //         setMac(ip);
-        //     });
+        DeviceService.getMac()
+            .then((data) => setMac(data))
+            .catch((err) => setMessage(err));
     };
-
     const onCoordinates = (e) => {
         setLatitude({ lat: e.target.value });
         setLongitude({ lng: e.target.value });

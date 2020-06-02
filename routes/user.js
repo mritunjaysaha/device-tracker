@@ -1,6 +1,4 @@
-// const address = require("address");
-// const getmac = require("getmac");
-const macaddress = require("macaddress");
+const nodemachineid = require("node-machine-id");
 const express = require("express");
 const router = express.Router();
 
@@ -10,7 +8,6 @@ const JWT = require("jsonwebtoken");
 
 const User = require("../models/user.model");
 const Device = require("../models/device.model");
-const Details = require("../models/devicedetails.model");
 const signToken = (userID) => {
     return JWT.sign(
         {
@@ -23,11 +20,7 @@ const signToken = (userID) => {
 router
     .route("/mac")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        // const mac = address.ip();
-        // res.status(200).json(mac);
-        macaddress.one(function (err, mac) {
-            res.status(200).json(mac);
-        });
+        nodemachineid.machineId().then((id) => res.json(id));
     });
 router.route("/register").post((req, res) => {
     const { username, password } = req.body;

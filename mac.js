@@ -16,7 +16,14 @@
 //         console.log("My public IP address is: " + ip);
 //     });
 // });
-const macaddress = require("macaddress");
-macaddress.one(function (err, mac) {
-    console.log("Mac address for this host: ", mac);
-});
+// const macaddress = require("macaddress");
+// macaddress.one(function (err, mac) {
+//     console.log("Mac address for this host: ", mac);
+// });
+const machineid = require("node-machine-id");
+
+// machineid.machineId().then((id) => {
+//     console.log(id);
+// });
+
+console.log(machineid.machineIdSync({ original: true }));
