@@ -23,8 +23,6 @@ const signToken = (userID) => {
 router
     .route("/mac")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        console.log("Cookies: ", req.cookies);
-
         res.json(req.cookies);
     });
 router.route("/register").post((req, res) => {
@@ -148,4 +146,31 @@ router
             });
     });
 
+// update the device coordinates
+router
+    .route("/update/:mac")
+    .post(passport.authenticate("jwt", { session: false }), (req, res) => {
+        console.log("mac: ", req.params.mac);
+
+        Device.findOneAndUpdate(
+            { mac: req.params.mac },
+            {
+                $set: {
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude,
+                },
+            },
+            { new: true },
+            (err, doc) => {
+                if (err) {
+                    res.status(500).json({
+                        message: { msgBody: "Failed to update location" },
+                        msgError: false,
+                    });
+                } else {
+                    res.status(201).json(doc);
+                }
+            }
+        );
+    });
 module.exports = router;
