@@ -16,7 +16,8 @@ const signToken = (userID) => {
             iss: "mj",
             sub: userID,
         },
-        "mj"
+        "mj",
+        { expiresIn: "365d" }
     );
 };
 router

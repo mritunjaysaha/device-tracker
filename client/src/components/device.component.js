@@ -2,7 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import DeviceService from "../services/DeviceService";
 import { AuthContext } from "../context/AuthContext";
 import Message from "./message.component";
-import { machineId, machineIdSync } from "node-machine-id";
+
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 const Device = () => {
     const [device, setDevice] = useState({});
     const [devices, setDevices] = useState([]);
@@ -64,7 +65,7 @@ const Device = () => {
         e.preventDefault();
         DeviceService.getMac().then((data) => {
             console.log(data);
-            setMac(data._ga);
+            setMac(data.access_token);
         });
     };
     const onCoordinates = (e) => {
@@ -74,23 +75,22 @@ const Device = () => {
     const getCoordinates = (e) => {
         e.preventDefault();
 
-        {
-            // Checking whether the browser supports geolocation
-            if ("geolocation" in navigator) {
-                const gps = navigator.geolocation.getCurrentPosition(function (
-                    position
-                ) {
-                    console.log("latitude: " + position.coords.latitude);
-                    console.log("longitude: " + position.coords.longitude);
-                    console.log("accuracy: " + position.coords.accuracy);
-                    setLatitude(position.coords.latitude);
-                    setLongitude(position.coords.longitude);
-                    setAccuracy(position.coords.accuracy);
-                });
-            } else {
-                alert("Browser does not support geolocation");
-            }
+        // Checking whether the browser supports geolocation
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                console.log("latitude: " + position.coords.latitude);
+                console.log("longitude: " + position.coords.longitude);
+                console.log("accuracy: " + position.coords.accuracy);
+                setLatitude(position.coords.latitude);
+                setLongitude(position.coords.longitude);
+                setAccuracy(position.coords.accuracy);
+            });
+        } else {
+            alert("Browser does not support geolocation");
         }
+
+        // const bounds = new window.google.maps.LatLngBounds();
+        // console.log(bounds);
     };
 
     return (
