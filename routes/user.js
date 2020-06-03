@@ -1,5 +1,7 @@
-const nodemachineid = require("node-machine-id");
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const app = express();
+app.use(cookieParser());
 const router = express.Router();
 
 const passport = require("passport");
@@ -20,7 +22,9 @@ const signToken = (userID) => {
 router
     .route("/mac")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        nodemachineid.machineId().then((id) => res.json(id));
+        console.log("Cookies: ", req.cookies);
+
+        res.json(req.cookies);
     });
 router.route("/register").post((req, res) => {
     const { username, password } = req.body;
@@ -67,6 +71,7 @@ router
     .post(passport.authenticate("local", { session: false }), (req, res) => {
         const { _id, username } = req.user;
         const token = signToken(_id);
+        console.log("sign token: " + token);
         res.cookie("access_token", token, { httpsOnly: true, sameSite: true });
         res.status(200).json({
             isAuthenticated: true,

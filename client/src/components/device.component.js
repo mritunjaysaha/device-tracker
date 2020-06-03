@@ -62,9 +62,10 @@ const Device = () => {
     };
     const getMacAddr = (e) => {
         e.preventDefault();
-        DeviceService.getMac()
-            .then((data) => setMac(data))
-            .catch((err) => setMessage(err));
+        DeviceService.getMac().then((data) => {
+            console.log(data);
+            setMac(data._ga);
+        });
     };
     const onCoordinates = (e) => {
         setLatitude({ lat: e.target.value });
