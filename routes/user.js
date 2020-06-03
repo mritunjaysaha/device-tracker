@@ -156,8 +156,8 @@ router
             { mac: req.params.mac },
             {
                 $set: {
-                    latitude: req.body.latitude,
-                    longitude: req.body.longitude,
+                    latitude: req.body.data.latitude,
+                    longitude: req.body.data.longitude,
                 },
             },
             { new: true },

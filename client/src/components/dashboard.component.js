@@ -18,12 +18,6 @@ const Dashboard = () => {
 
     const getLog = () => {
         console.log(deviceList);
-        // deviceList.map((device) => {
-        //     console.log(device.name);
-        // });
-        // for(let device in deviceList){
-
-        // }
     };
 
     let list;

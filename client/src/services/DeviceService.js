@@ -43,4 +43,29 @@ export default {
             }
         });
     },
+
+    postUpdate: (coordinates, mac) => {
+        return fetch(`/user/update/${mac}`, {
+            method: "post",
+            body: JSON.stringify(coordinates),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then((res) => {
+            if (res.status !== 401) {
+                res.json().then((data) => {
+                    return (
+                        "data: ",
+                        {
+                            latitude: data.latitude,
+                            longitude: data.longitude,
+                        }
+                    );
+                    // data;
+                });
+            } else {
+                return { message: { msgBody: "UnAuthorized" }, msgError: true };
+            }
+        });
+    },
 };

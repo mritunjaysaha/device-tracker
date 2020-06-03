@@ -92,6 +92,12 @@ const Device = () => {
         // console.log(bounds);
     };
 
+    const onLog = () => {
+        DeviceService.postUpdate(
+            { latitude: latitude, longitude: longitude },
+            mac
+        );
+    };
     return (
         <section class="text-gray-700 body-font">
             <div class="container px-5 py-24 mx-auto">
@@ -160,6 +166,7 @@ const Device = () => {
                     </button>
                     {message ? <Message message={message} /> : null}
                 </form>
+                <button onClick={onLog}>LOG</button>
             </div>
         </section>
     );
