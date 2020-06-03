@@ -3,7 +3,6 @@ import DeviceService from "../services/DeviceService";
 import { AuthContext } from "../context/AuthContext";
 import Message from "./message.component";
 
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
 const Device = () => {
     const [device, setDevice] = useState({});
     const [devices, setDevices] = useState([]);
