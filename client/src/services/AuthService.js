@@ -7,7 +7,16 @@ export default {
                 "Content-Type": "application/json",
             },
         })
-            .then((res) => res.json())
+            .then((res) => {
+                if (res.status !== 400 || res.status !== 401) {
+                    return res.json();
+                } else {
+                    return res.json({
+                        message: { msgBody: "Error" },
+                        msgError: true,
+                    });
+                }
+            })
             .then((data) => data);
     },
     register: (user) => {

@@ -20,6 +20,45 @@ const signToken = (userID) => {
         { expiresIn: "365d" }
     );
 };
+
+const { check, validationResult } = require("express-validator");
+
+router.post(
+    "/login",
+    [(check("username").isEmail(), check("password").isLength({ min: 5 }))],
+    (req, res) => {
+        const { username, password } = req.body;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                message: { msgBody: "error" },
+                msgError: true,
+            });
+        }
+        User.findOne({ username }, (error, user) => {
+            if (error || !user) {
+                return res.status(400).json({
+                    message: { msgBody: "User doesn't exists" },
+                    msgError: true,
+                });
+            }
+            const { _id } = user._id;
+
+            const { username } = req.body;
+            const token = signToken(_id);
+            console.log("sign token: " + token);
+            res.cookie("access_token", token, {
+                httpsOnly: true,
+                sameSite: true,
+            });
+            res.json({
+                isAuthenticated: true,
+                user: username,
+            });
+        });
+    }
+);
+
 router
     .route("/mac")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
@@ -66,22 +105,9 @@ router.route("/register").post((req, res) => {
 });
 
 router
-    .route("/login")
-    .post(passport.authenticate("local", { session: false }), (req, res) => {
-        const { _id, username } = req.user;
-        const token = signToken(_id);
-        console.log("sign token: " + token);
-        res.cookie("access_token", token, { httpsOnly: true, sameSite: true });
-        res.status(200).json({
-            isAuthenticated: true,
-            user: username,
-        });
-    });
-
-router
     .route("/logout")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        res.clearCookie("access_token");
+        // res.clearCookie("access_token");
         res.json({ user: { username: "" }, success: true });
     });
 

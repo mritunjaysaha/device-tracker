@@ -15,18 +15,13 @@ const Login = (props) => {
     const onSubmit = (e) => {
         e.preventDefault();
         AuthService.login(user).then((data) => {
-            const { isAuthenticated, user } = data;
+            console.log("data: ", data);
+            const { isAuthenticated, user, message } = data;
             if (isAuthenticated) {
                 authContext.setUser(user);
                 authContext.setIsAuthenticated(isAuthenticated);
                 props.history.push("/devices");
             } else {
-                const message = {
-                    message: {
-                        msgBody: "Error Login",
-                        msgError: true,
-                    },
-                };
                 setMessage(message);
                 resetForm();
             }
