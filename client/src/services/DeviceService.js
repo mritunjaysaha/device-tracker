@@ -4,7 +4,7 @@ export default {
             if (res.status !== 401) {
                 return res.json().then((data) => data);
             } else {
-                return { message: { msgBody: "UnAuthorized" }, msgError: true };
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
             }
         });
     },
@@ -20,7 +20,7 @@ export default {
             if (res.status !== 401) {
                 return res.json().then((data) => data);
             } else {
-                return { message: { msgBody: "UnAuthorized" }, msgError: true };
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
             }
         });
     },
@@ -54,17 +54,14 @@ export default {
         }).then((res) => {
             if (res.status !== 401) {
                 res.json().then((data) => {
-                    return (
-                        "data: ",
-                        {
-                            latitude: data.latitude,
-                            longitude: data.longitude,
-                        }
-                    );
-                    // data;
+                    console.log("data: " + coordinates.latitude);
+                    return {
+                        latitude: coordinates.latitude,
+                        longitude: coordinates.longitude,
+                    };
                 });
             } else {
-                return { message: { msgBody: "UnAuthorized" }, msgError: true };
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
             }
         });
     },

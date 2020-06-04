@@ -151,13 +151,14 @@ router
     .route("/update/:mac")
     .post(passport.authenticate("jwt", { session: false }), (req, res) => {
         console.log("mac: ", req.params.mac);
-
+        console.log("latitude: ", req.body.latitude);
+        console.log("longitude: ", req.body.longitude);
         Device.findOneAndUpdate(
             { mac: req.params.mac },
             {
                 $set: {
-                    latitude: req.body.data.latitude,
-                    longitude: req.body.data.longitude,
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude,
                 },
             },
             { new: true },
@@ -168,7 +169,7 @@ router
                         msgError: false,
                     });
                 } else {
-                    res.status(201).json(doc);
+                    console.log("doc: ", doc);
                 }
             }
         );

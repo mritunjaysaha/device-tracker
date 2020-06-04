@@ -87,14 +87,11 @@ const Device = () => {
         } else {
             alert("Browser does not support geolocation");
         }
-
-        // const bounds = new window.google.maps.LatLngBounds();
-        // console.log(bounds);
     };
 
     const onLog = () => {
         DeviceService.postUpdate(
-            { latitude: latitude, longitude: longitude },
+            { latitude: 0, longitude: 0, accuracy: 0 },
             mac
         );
     };
