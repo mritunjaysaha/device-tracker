@@ -20,7 +20,7 @@ export default {
             .then((data) => data);
     },
     register: (user) => {
-        return fetch("/user/register", {
+        return fetch("/user/signup", {
             method: "post",
             body: JSON.stringify(user),
             headers: {

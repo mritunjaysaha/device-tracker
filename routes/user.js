@@ -28,51 +28,63 @@ router
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
         res.json(req.cookies);
     });
-router.route("/register").post((req, res) => {
-    const { username, password } = req.body;
 
-    User.findOne({ username }, (err, user) => {
-        if (err) {
-            res.status(500).json({
-                message: { msgBody: "Error has occured", msgError: true },
+router.post(
+    "/signup",
+    [check("username").isEmail(), check("password").isLength({ min: 5 })],
+    (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                message: { msgBody: "Invalid email" },
+                msgError: true,
             });
         }
-        if (user) {
-            res.status(400).json({
-                message: {
-                    msgBody: "Username is already taken",
-                    msgError: true,
-                },
-            });
-        } else {
-            const newUser = new User({ username, password });
+        const { username, password } = req.body;
 
-            newUser.save((err) => {
-                if (err) {
-                    res.status(500).json({
-                        message: {
-                            msgBody: "Error has occured",
-                            msgError: true,
-                        },
-                    });
-                } else {
-                    res.status(201).json({
-                        message: {
-                            msgBody: "Account successfully created",
-                            msgError: false,
-                        },
-                    });
-                }
-            });
-        }
-    });
-});
+        User.findOne({ username }, (err, user) => {
+            if (err) {
+                res.status(500).json({
+                    message: { msgBody: "Error has occured", msgError: true },
+                });
+            }
+            if (user) {
+                res.status(400).json({
+                    message: {
+                        msgBody: "Username is already taken",
+                        msgError: true,
+                    },
+                });
+            } else {
+                const newUser = new User({ username, password });
+
+                newUser.save((err) => {
+                    if (err) {
+                        res.status(500).json({
+                            message: {
+                                msgBody: "Error has occured",
+                                msgError: true,
+                            },
+                        });
+                    } else {
+                        res.status(201).json({
+                            message: {
+                                msgBody: "Account successfully created",
+                                msgError: false,
+                            },
+                        });
+                    }
+                });
+            }
+        });
+    }
+);
 
 router.post(
     "/login",
     [(check("username").isEmail(), check("password").isLength({ min: 5 }))],
     (req, res) => {
-        const { username, password } = req.body;
+        const { username } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -90,9 +102,6 @@ router.post(
             const { _id } = user._id;
             const { username } = req.body;
             const token = signToken(_id);
-
-            // Store the access token to local storage
-            localStorage.setItem(`${_id}`, token.toString);
 
             console.log("sign token: " + token);
             res.cookie("access_token", token, {

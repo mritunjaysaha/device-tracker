@@ -17,7 +17,7 @@ const Device = () => {
         DeviceService.getDevices().then((data) => {
             setDevice(data.devices);
         });
-    }, []);
+    });
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -26,6 +26,7 @@ const Device = () => {
         device.longitude = longitude;
         device.accuracy = accuracy;
 
+        localStorage.setItem("key", mac);
         console.log("device: ", device);
         console.log("devices: ", devices);
         DeviceService.postDevice(device).then((data) => {
@@ -90,10 +91,14 @@ const Device = () => {
     };
 
     const onLog = () => {
-        DeviceService.postUpdate(
-            { latitude: 0, longitude: 0, accuracy: 0 },
-            mac
-        );
+        // DeviceService.postUpdate(
+        //     { latitude: 0, longitude: 0, accuracy: 0 },
+        //     mac
+        // );
+        DeviceService.getDevices().then((data) => {
+            console.log(data);
+            // setDevice(data.devices);
+        });
     };
     return (
         <section class="text-gray-700 body-font">

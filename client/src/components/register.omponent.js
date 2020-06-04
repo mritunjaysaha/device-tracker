@@ -25,9 +25,10 @@ const Register = (props) => {
         e.preventDefault();
         AuthService.register(user).then((data) => {
             const { message } = data;
-            setMessage(message);
+            console.log("data: ", data);
             resetForm();
-            if (!message.msgError) {
+            setMessage(message);
+            if (message.msgError === false) {
                 timerID = setTimeout(() => {
                     props.history.push("/login");
                 }, 2000);
