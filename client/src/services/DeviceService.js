@@ -42,4 +42,20 @@ export default {
             }
         });
     },
+
+    postUpdateCoordinates: (mac, updates) => {
+        return fetch(`/user/update/coordinates/${mac}`, {
+            method: "post",
+            body: JSON.stringify(updates),
+            headers: {
+                "Content-Type": "application/form",
+            },
+        }).then((res) => {
+            if (res) {
+                res.json().then((data) => data);
+            } else {
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
+            }
+        });
+    },
 };

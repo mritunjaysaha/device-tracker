@@ -185,35 +185,6 @@ router
             });
     });
 
-// update the device coordinates
-router
-    .route("/update/:mac")
-    .post(passport.authenticate("jwt", { session: false }), (req, res) => {
-        console.log("mac: ", req.params.mac);
-        console.log("latitude: ", req.body.latitude);
-        console.log("longitude: ", req.body.longitude);
-        Device.findOneAndUpdate(
-            { mac: req.params.mac },
-            {
-                $set: {
-                    latitude: req.body.latitude,
-                    longitude: req.body.longitude,
-                },
-            },
-            { new: true },
-            (err, doc) => {
-                if (err) {
-                    res.status(500).json({
-                        message: { msgBody: "Failed to update location" },
-                        msgError: false,
-                    });
-                } else {
-                    console.log("doc: ", doc);
-                }
-            }
-        );
-    });
-
 // get the previous location coordinates of the current device
 router
     .route("/coordinates/:mac")
@@ -225,5 +196,38 @@ router
                 res.json(data);
             })
             .catch((err) => console.log(err));
+    });
+
+router
+    .route("/update-coordinates/:mac")
+    .post(passport.authenticate("jwt", { session: false }), (req, res) => {
+        console.log(req.params.mac);
+        console.log(req.body.latitude);
+        console.log(req.body.longitude);
+        console.log(req.body.accuracy);
+        const { lat, long, acc } = req.body;
+        Device.findOneAndUpdate(
+            { mac: req.params.mac },
+            {
+                $set: {
+                    latitude: req.body.latitude,
+                    longitude: req.body.longitude,
+                    accuracy: req.body.accuracy,
+                },
+            },
+            {
+                new: true,
+            },
+            (err, doc) => {
+                if (err) {
+                    res.status(500).json({
+                        message: { msgBody: "Error" },
+                        msgError: true,
+                    });
+                } else {
+                    res.json(doc);
+                }
+            }
+        );
     });
 module.exports = router;
