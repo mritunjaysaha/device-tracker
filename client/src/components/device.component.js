@@ -13,12 +13,6 @@ const Device = () => {
     const [accuracy, setAccuracy] = useState(0);
     const authContext = useContext(AuthContext);
 
-    useEffect(() => {
-        DeviceService.getDevices().then((data) => {
-            setDevice(data.devices);
-        });
-    });
-
     const onSubmit = (e) => {
         e.preventDefault();
         device.mac = mac;
@@ -26,14 +20,13 @@ const Device = () => {
         device.longitude = longitude;
         device.accuracy = accuracy;
 
-        localStorage.setItem("key", mac);
         console.log("device: ", device);
         console.log("devices: ", devices);
         DeviceService.postDevice(device).then((data) => {
             const { message } = data;
             resetForm();
             if (!message.msgError) {
-                DeviceService.getDevices().then((getData) => {
+                DeviceService.getDeviceList().then((getData) => {
                     console.log("getData.device: " + getData.Device);
                     setDevices(getData.device);
                     console.log(message);
@@ -88,18 +81,11 @@ const Device = () => {
         } else {
             alert("Browser does not support geolocation");
         }
+
+        // const bounds = new window.google.maps.LatLngBounds();
+        // console.log(bounds);
     };
 
-    const onLog = () => {
-        // DeviceService.postUpdate(
-        //     { latitude: 0, longitude: 0, accuracy: 0 },
-        //     mac
-        // );
-        DeviceService.getDevices().then((data) => {
-            console.log(data);
-            // setDevice(data.devices);
-        });
-    };
     return (
         <section class="text-gray-700 body-font">
             <div class="container px-5 py-24 mx-auto">
@@ -168,7 +154,6 @@ const Device = () => {
                     </button>
                     {message ? <Message message={message} /> : null}
                 </form>
-                <button onClick={onLog}>LOG</button>
             </div>
         </section>
     );
