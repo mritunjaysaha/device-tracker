@@ -219,9 +219,11 @@ router
     .route("/coordinates/:mac")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
         console.log("currentDevice location coordinates");
-        console.log(req.params.mac);
-        Device.findOne({ mac: req.params.mac }).then((data) => {
-            res.json(data);
-        });
+        Device.findOne({ mac: req.params.mac })
+            .then((data) => {
+                console.log(data);
+                res.json(data);
+            })
+            .catch((err) => console.log(err));
     });
 module.exports = router;

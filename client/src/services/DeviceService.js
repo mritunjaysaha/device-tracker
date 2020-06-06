@@ -33,4 +33,13 @@ export default {
             }
         });
     },
+    getCoordinates: (mac) => {
+        return fetch(`/user/coordinates/${mac}`).then((res) => {
+            if (res.status !== 401) {
+                return res.json().then((data) => data);
+            } else {
+                return { message: { msgBody: "unAuthorized" }, msgError: true };
+            }
+        });
+    },
 };
