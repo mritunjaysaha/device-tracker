@@ -16,7 +16,7 @@ const signToken = (userID) => {
             iss: "mj",
             sub: userID,
         },
-        "mj",
+        process.env.SECRET,
         { expiresIn: "365d" }
     );
 };
@@ -82,9 +82,8 @@ router.post(
 
 router.post(
     "/login",
-    [(check("username").isEmail(), check("password").isLength({ min: 5 }))],
+    [check("username").isEmail(), check("password").isLength({ min: 1 })],
     (req, res) => {
-        const { username } = req.body;
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
@@ -92,6 +91,8 @@ router.post(
                 msgError: true,
             });
         }
+        const { username } = req.body;
+
         User.findOne({ username }, (error, user) => {
             if (error || !user) {
                 return res.status(400).json({
@@ -211,5 +212,16 @@ router
                 }
             }
         );
+    });
+
+// get the previous location coordinates of the current device
+router
+    .route("/coordinates/:mac")
+    .get(passport.authenticate("jwt", { session: false }), (req, res) => {
+        console.log("currentDevice location coordinates");
+        console.log(req.params.mac);
+        Device.findOne({ mac: req.params.mac }).then((data) => {
+            res.json(data);
+        });
     });
 module.exports = router;

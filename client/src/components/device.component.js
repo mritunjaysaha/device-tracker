@@ -5,7 +5,6 @@ import Message from "./message.component";
 
 const Device = () => {
     const [device, setDevice] = useState({});
-    const [devices, setDevices] = useState([]);
     const [message, setMessage] = useState(null);
     const [mac, setMac] = useState("");
     const [latitude, setLatitude] = useState();
@@ -20,16 +19,14 @@ const Device = () => {
         device.longitude = longitude;
         device.accuracy = accuracy;
 
-        console.log("device: ", device);
-        console.log("devices: ", devices);
+        localStorage.setItem("key", mac);
+
         DeviceService.postDevice(device).then((data) => {
             const { message } = data;
             resetForm();
             if (!message.msgError) {
                 DeviceService.getDeviceList().then((getData) => {
-                    console.log("getData.device: " + getData.Device);
-                    setDevices(getData.device);
-                    console.log(message);
+                    setDevice(getData.device);
                     setMessage(message);
                 });
             } else if (message.msgBody === "unAuthorized") {
@@ -37,7 +34,6 @@ const Device = () => {
                 authContext.setUser({ username: "" });
                 authContext.setIsAuthenticated(false);
             } else {
-                console.log(message);
                 setMessage(message);
             }
         });
@@ -57,7 +53,6 @@ const Device = () => {
     const getMacAddr = (e) => {
         e.preventDefault();
         DeviceService.getMac().then((data) => {
-            console.log(data);
             setMac(data.access_token);
         });
     };
@@ -67,7 +62,7 @@ const Device = () => {
     };
     const getCoordinates = (e) => {
         e.preventDefault();
-
+        console.log("button clicked");
         // Checking whether the browser supports geolocation
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -81,9 +76,6 @@ const Device = () => {
         } else {
             alert("Browser does not support geolocation");
         }
-
-        // const bounds = new window.google.maps.LatLngBounds();
-        // console.log(bounds);
     };
 
     return (
