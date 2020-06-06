@@ -44,7 +44,7 @@ export default {
     },
 
     postUpdateCoordinates: (mac, updates) => {
-        return fetch(`/user/update/coordinates/${mac}`, {
+        return fetch(`/user/update-coordinates/${mac}`, {
             method: "post",
             body: JSON.stringify(updates),
             headers: {
