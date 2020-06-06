@@ -87,7 +87,7 @@ router.post(
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({
-                message: { msgBody: "error" },
+                message: { msgBody: "Username or password is wrong" },
                 msgError: true,
             });
         }
@@ -205,7 +205,6 @@ router
         console.log(req.body.latitude);
         console.log(req.body.longitude);
         console.log(req.body.accuracy);
-        const { lat, long, acc } = req.body;
         Device.findOneAndUpdate(
             { mac: req.params.mac },
             {

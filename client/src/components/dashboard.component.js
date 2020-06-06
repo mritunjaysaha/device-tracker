@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DeviceService from "../services/DeviceService";
 import DeviceItem from "./deviceItem.component";
-import { set } from "mongoose";
 
 const Dashboard = () => {
     const [deviceList, setDeviceList] = useState([]);
@@ -9,17 +8,13 @@ const Dashboard = () => {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [accuracy, setAccuracy] = useState(null);
-    const [mac, setMac] = useState(null);
+    let mac = localStorage.getItem("key");
     useEffect(() => {
         DeviceService.getDeviceList().then((data) => {
             setDeviceList(data.devices);
         });
-
-        const key = localStorage.getItem("key");
-        console.log("key: ", key);
-        if (key !== null) {
-            setMac(key);
-            DeviceService.getCoordinates(key).then((data) => {
+        if (mac !== null) {
+            DeviceService.getCoordinates(mac).then((data) => {
                 console.log("here ", data);
                 setLatitude(data.latitude);
                 setLongitude(data.longitude);
@@ -51,7 +46,18 @@ const Dashboard = () => {
     // watch the position of the device. If the position changes then update the location
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function (position) {
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+            const acc = position.coords.accuracy;
+
             console.log(position.coords);
+            if (lat !== latitude || long !== longitude || acc !== accuracy) {
+                DeviceService.postUpdateCoordinates(mac, {
+                    latitude: lat,
+                    longitude: long,
+                    accuracy: acc,
+                });
+            }
         });
     }
     return (
