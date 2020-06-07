@@ -46,11 +46,10 @@ const Dashboard = () => {
     // watch the position of the device. If the position changes then update the location
     if (navigator.geolocation) {
         navigator.geolocation.watchPosition(function (position) {
-            const lat = position.coords.latitude;
-            const long = position.coords.longitude;
-            const acc = position.coords.accuracy;
-
-            if (lat !== latitude || long !== longitude || acc !== accuracy) {
+            const lat = position.coords.latitude.toString();
+            const long = position.coords.longitude.toString();
+            const acc = position.coords.accuracy.toString();
+            if (lat !== latitude && long !== longitude && acc !== accuracy) {
                 console.log({ lat: lat, long: long, acc: acc });
                 DeviceService.postUpdateCoordinates(mac, {
                     latitude: lat,

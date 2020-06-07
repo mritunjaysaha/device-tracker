@@ -205,7 +205,7 @@ router
         console.log(req.body.latitude);
         console.log(req.body.longitude);
         console.log(req.body.accuracy);
-        Device.findOneAndUpdate(
+        Device.update(
             { mac: req.params.mac },
             {
                 $set: {
