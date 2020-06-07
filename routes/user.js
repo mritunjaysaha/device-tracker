@@ -16,7 +16,7 @@ const signToken = (userID) => {
             iss: "mj",
             sub: userID,
         },
-        process.env.SECRET,
+        "mj",
         { expiresIn: "365d" }
     );
 };
