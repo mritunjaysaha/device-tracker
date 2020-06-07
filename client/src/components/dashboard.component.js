@@ -50,8 +50,8 @@ const Dashboard = () => {
             const long = position.coords.longitude;
             const acc = position.coords.accuracy;
 
-            console.log(position.coords);
             if (lat !== latitude || long !== longitude || acc !== accuracy) {
+                console.log({ lat: lat, long: long, acc: acc });
                 DeviceService.postUpdateCoordinates(mac, {
                     latitude: lat,
                     longitude: long,
