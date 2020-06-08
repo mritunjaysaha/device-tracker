@@ -35,6 +35,8 @@ const Dashboard = () => {
                     longitude: long,
                     accuracy: acc,
                 });
+            } else {
+                console.log("same");
             }
         });
     };

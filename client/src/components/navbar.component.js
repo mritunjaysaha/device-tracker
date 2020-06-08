@@ -43,6 +43,9 @@ const Navbar = () => {
                 <Link to="/devices" className="mr-5 hover:text-gray-900">
                     Devices
                 </Link>
+                <Link className="mr-5 hover:text-gray-900" to="/map">
+                    Map
+                </Link>
                 <button type="button" onClick={onClickLogoutHandler}>
                     <Link to="/" className="mr-5 hover:text-gray-900">
                         Logout
