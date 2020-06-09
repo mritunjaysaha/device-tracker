@@ -29,6 +29,9 @@ export default class MapBox extends React.Component {
                 zoom: map.getZoom().toFixed(2),
             });
         });
+        var marker = new mapboxgl.Marker()
+            .setLngLat([91.7387746, 26.138125199999998])
+            .addTo(map);
     }
 
     render() {
