@@ -66,21 +66,21 @@ const Dashboard = () => {
     }
 
     // watch the position of the device. If the position changes then update the location
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            const lat = position.coords.latitude.toString();
-            const long = position.coords.longitude.toString();
-            const acc = position.coords.accuracy.toString();
-            if (lat !== latitude && long !== longitude && acc !== accuracy) {
-                console.log({ lat: lat, long: long, acc: acc });
-                DeviceService.postUpdateCoordinates(mac, {
-                    latitude: lat,
-                    longitude: long,
-                    accuracy: acc,
-                });
-            }
-        });
-    }
+    // if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(function (position) {
+    //         const lat = position.coords.latitude.toString();
+    //         const long = position.coords.longitude.toString();
+    //         const acc = position.coords.accuracy.toString();
+    //         if (lat !== latitude && long !== longitude && acc !== accuracy) {
+    //             console.log({ lat: lat, long: long, acc: acc });
+    //             DeviceService.postUpdateCoordinates(mac, {
+    //                 latitude: lat,
+    //                 longitude: long,
+    //                 accuracy: acc,
+    //             });
+    //         }
+    //     });
+    // }
     return (
         <div>
             <section className="text-gray-700 body-font relative">
