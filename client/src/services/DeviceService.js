@@ -44,7 +44,7 @@ export default {
     },
 
     postUpdateCoordinates: (mac, updates) => {
-        console.log("updates: ", updates);
+        // console.log("updates: ", updates);
         return fetch(`/user/update-coordinates/${mac}`, {
             method: "post",
             body: JSON.stringify(updates),

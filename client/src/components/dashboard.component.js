@@ -46,14 +46,16 @@ const Dashboard = () => {
     }
 
     const getLog = () => {
-        console.log(deviceList);
-        console.log(latitude);
-        console.log(longitude);
-        console.log(accuracy);
+        // console.log(deviceList);
+        deviceList.map((device) => console.log("device: ", device));
+        // console.log(latitude);
+        // console.log(longitude);
+        // console.log(accuracy);
     };
 
     let list;
     if (deviceList.length > 0) {
+        console.log("here ", deviceList);
         list = (
             <div>
                 {deviceList.map((device) => {

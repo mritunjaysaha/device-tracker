@@ -17,29 +17,46 @@ const MapboxGLMap = () => {
 
     // Get location coordinates
     // last values of the current device
+    const [deviceList, setDeviceList] = useState([]);
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [accuracy, setAccuracy] = useState(null);
     let mac = localStorage.getItem("key");
+    let markerArr = [];
+    const test = [
+        {
+            latitude: 26.158694399999998,
+            longitude: 91.7635072,
+            color: "#ff0000",
+        },
+        {
+            latitude: 26.1400725,
+            longitude: 91.7403456,
+            color: "#0000ff",
+        },
+    ];
 
     useEffect(() => {
-        DeviceService.getDeviceList().then((data) => {});
+        DeviceService.getDeviceList().then((data) => {
+            setDeviceList(data.devices);
+        });
         if (mac !== null) {
-            console.log("mac: ", mac);
+            // console.log("mac: ", mac);
             DeviceService.getCoordinates(mac).then((data) => {
-                console.log("here ", data);
+                // console.log("here ", data);
                 setLatitude(parseFloat(data.latitude));
                 setLongitude(parseFloat(data.longitude));
                 setAccuracy(parseFloat(data.accuracy));
             });
         }
+
         mapboxgl.accessToken =
             "pk.eyJ1IjoibXJpdHVuamF5c2FoYSIsImEiOiJja2I3eXY3N20wYWxsMzFwZ2F4cXY0MmJvIn0.pQKIGfiOkHXQMhyKkCyPHQ";
         const initializeMap = ({ setMap, mapContainer }) => {
             const map = new mapboxgl.Map({
                 container: mapContainer.current,
                 style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-                center: [91.7387746, 26.138125199999998],
+                center: [longitude, latitude],
                 zoom: 14,
             });
 
@@ -47,15 +64,24 @@ const MapboxGLMap = () => {
                 setMap(map);
                 map.resize();
             });
-            const marker = new mapboxgl.Marker()
-                .setLngLat([longitude, latitude])
-                .addTo(map);
-        };
+            test.map((device) => {
+                const marker = new mapboxgl.Marker({ color: device.color })
+                    .setLngLat([device.longitude, device.latitude])
+                    .addTo(map);
+            });
 
+            // console.log(deviceList);
+            // deviceList.map((device) => {
+            //     console.log("device ");
+            //     const marker = new mapboxgl.Marker({ color: "#ff0000" })
+            //         .setLngLat([longitude, latitude])
+            //         .addTo(map);
+            // });
+        };
         if (!map) {
             initializeMap({ setMap, mapContainer });
         }
-    });
+    }, [latitude, longitude, accuracy, deviceList]);
 
     const updateLocation = () => {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -63,14 +89,14 @@ const MapboxGLMap = () => {
             const long = position.coords.longitude.toString();
             const acc = position.coords.accuracy.toString();
             if (lat !== latitude && long !== longitude && acc !== accuracy) {
-                console.log({ lat: lat, long: long, acc: acc });
+                // console.log({ lat: lat, long: long, acc: acc });
                 DeviceService.postUpdateCoordinates(mac, {
                     latitude: lat,
                     longitude: long,
                     accuracy: acc,
                 });
             } else {
-                console.log("same");
+                // console.log("same");
             }
         });
     };
