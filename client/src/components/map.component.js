@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import DeviceService from "../services/DeviceService";
-
-// mapboxgl.accessToken =
-//     "pk.eyJ1IjoibXJpdHVuamF5c2FoYSIsImEiOiJja2I3eXY3N20wYWxsMzFwZ2F4cXY0MmJvIn0.pQKIGfiOkHXQMhyKkCyPHQ";
-
+import "../styles/marker.css";
 const styles = {
     width: "100vw",
     height: "calc(100vh - 80px)",
@@ -15,9 +12,10 @@ const MapboxGLMap = () => {
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
 
-    // Get location coordinates
-    // last values of the current device
+    // details pf other devices
     const [deviceList, setDeviceList] = useState([]);
+
+    // details of current device
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [accuracy, setAccuracy] = useState(null);
@@ -41,9 +39,7 @@ const MapboxGLMap = () => {
             setDeviceList(data.devices);
         });
         if (mac !== null) {
-            // console.log("mac: ", mac);
             DeviceService.getCoordinates(mac).then((data) => {
-                // console.log("here ", data);
                 setLatitude(parseFloat(data.latitude));
                 setLongitude(parseFloat(data.longitude));
                 setAccuracy(parseFloat(data.accuracy));
@@ -63,20 +59,32 @@ const MapboxGLMap = () => {
             map.on("load", () => {
                 setMap(map);
                 map.resize();
-            });
-            test.map((device) => {
-                const marker = new mapboxgl.Marker({ color: device.color })
-                    .setLngLat([device.longitude, device.latitude])
-                    .addTo(map);
-            });
 
-            // console.log(deviceList);
-            // deviceList.map((device) => {
-            //     console.log("device ");
-            //     const marker = new mapboxgl.Marker({ color: "#ff0000" })
-            //         .setLngLat([longitude, latitude])
-            //         .addTo(map);
-            // });
+                map.on("click", "places", function (e) {
+                    new mapboxgl.Popup()
+                        .setLngLat([longitude, latitude])
+                        .setHTML("Device 1")
+                        .addTo(map);
+                });
+            });
+            var popup = new mapboxgl.Popup({ offset: 25 }).setText(
+                "Construction on the Washington Monument began in 1848."
+            );
+
+            // current device
+            const marker = new mapboxgl.Marker({ color: "#00ff00" })
+                .setLngLat([longitude, latitude])
+                .setPopup(popup)
+                .addTo(map);
+
+            // other devices
+            deviceList.map((device) => {
+                if (mac !== device.mac) {
+                    const marker = new mapboxgl.Marker()
+                        .setLngLat([device.longitude, device.latitude])
+                        .addTo(map);
+                }
+            });
         };
         if (!map) {
             initializeMap({ setMap, mapContainer });
@@ -89,14 +97,11 @@ const MapboxGLMap = () => {
             const long = position.coords.longitude.toString();
             const acc = position.coords.accuracy.toString();
             if (lat !== latitude && long !== longitude && acc !== accuracy) {
-                // console.log({ lat: lat, long: long, acc: acc });
                 DeviceService.postUpdateCoordinates(mac, {
                     latitude: lat,
                     longitude: long,
                     accuracy: acc,
                 });
-            } else {
-                // console.log("same");
             }
         });
     };
