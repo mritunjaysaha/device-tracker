@@ -100,7 +100,12 @@ const MapboxGLMap = () => {
     if (navigator.geolocation) {
         setInterval(updateLocation(), 1000);
     }
-    return <div ref={(el) => (mapContainer.current = el)} style={styles} />;
+    return (
+        <div
+            ref={(el) => (mapContainer.current = el)}
+            className="mapContainer"
+        />
+    );
 };
 
 export default MapboxGLMap;
