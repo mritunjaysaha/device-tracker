@@ -20,19 +20,6 @@ const MapboxGLMap = () => {
     const [longitude, setLongitude] = useState(null);
     const [accuracy, setAccuracy] = useState(null);
     let mac = localStorage.getItem("key");
-    let markerArr = [];
-    const test = [
-        {
-            latitude: 26.158694399999998,
-            longitude: 91.7635072,
-            color: "#ff0000",
-        },
-        {
-            latitude: 26.1400725,
-            longitude: 91.7403456,
-            color: "#0000ff",
-        },
-    ];
 
     useEffect(() => {
         DeviceService.getDeviceList().then((data) => {
@@ -67,21 +54,25 @@ const MapboxGLMap = () => {
                         .addTo(map);
                 });
             });
-            var popup = new mapboxgl.Popup({ offset: 25 }).setText(
-                "Construction on the Washington Monument began in 1848."
-            );
 
             // current device
-            const marker = new mapboxgl.Marker({ color: "#00ff00" })
+            new mapboxgl.Marker({ color: "#ff0000" })
                 .setLngLat([longitude, latitude])
-                .setPopup(popup)
+                .setPopup(
+                    new mapboxgl.Popup({ offset: 25 }).setText("Current Device")
+                )
                 .addTo(map);
 
             // other devices
             deviceList.map((device) => {
                 if (mac !== device.mac) {
-                    const marker = new mapboxgl.Marker()
+                    new mapboxgl.Marker()
                         .setLngLat([device.longitude, device.latitude])
+                        .setPopup(
+                            new mapboxgl.Popup({ offset: 25 }).setText(
+                                device.name
+                            )
+                        )
                         .addTo(map);
                 }
             });
