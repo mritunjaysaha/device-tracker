@@ -18,12 +18,6 @@ const Device = () => {
     const mapContainer = useRef(null);
 
     useEffect(() => {
-        DeviceService.getMac().then((data) => {
-            setMac(data.access_token);
-        });
-    });
-
-    useEffect(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 console.log("latitude: " + position.coords.latitude);
@@ -37,6 +31,12 @@ const Device = () => {
         } else {
             alert("Browser does not support geolocation");
         }
+    });
+
+    useEffect(() => {
+        DeviceService.getMac().then((data) => {
+            setMac(data.access_token);
+        });
     });
 
     useEffect(() => {
