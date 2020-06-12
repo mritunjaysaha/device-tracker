@@ -17,7 +17,7 @@ const signToken = (userID) => {
             sub: userID,
         },
         "mj",
-        { expiresIn: "365d" }
+        { expiresIn: "365 days" }
     );
 };
 
@@ -120,7 +120,7 @@ router.post(
 router
     .route("/logout")
     .get(passport.authenticate("jwt", { session: false }), (req, res) => {
-        // res.clearCookie("access_token");
+        res.clearCookie("access_token");
         res.json({ user: { username: "" }, success: true });
     });
 

@@ -20,13 +20,13 @@ const Navbar = () => {
     const unauthenticatedNavBar = () => {
         return (
             <>
-                <Link className="mr-5 hover:text-gray-900" to="/">
+                <Link className="mr-5  hover:text-gray-900" to="/">
                     Home
                 </Link>
-                <Link className="mr-5 hover:text-gray-900" to="/login">
+                <Link className="mr-5  hover:text-gray-900" to="/login">
                     Login
                 </Link>
-                <Link className="mr-5 hover:text-gray-900" to="/register">
+                <Link className="mr-5  hover:text-gray-900" to="/register">
                     Register
                 </Link>
             </>
@@ -36,18 +36,21 @@ const Navbar = () => {
     const authenticatedNavBar = () => {
         return (
             <>
-                <Link to="/dashboard" className="mr-5 hover:text-gray-900">
+                <Link to="/dashboard" className="mr-5 mt-1 hover:text-gray-900">
                     Dashboard
                 </Link>
 
-                <Link to="/devices" className="mr-5 hover:text-gray-900">
+                <Link to="/devices" className="mr-5 mt-1 hover:text-gray-900">
                     Devices
                 </Link>
-                <Link className="mr-5 hover:text-gray-900" to="/map">
+                <Link className="mr-5 mt-1 hover:text-gray-900" to="/map">
                     Map
                 </Link>
                 <button type="button" onClick={onClickLogoutHandler}>
-                    <Link to="/" className="mr-5 hover:text-gray-900">
+                    <Link
+                        to="/"
+                        className="inline-block text-sm px-8 py-2 ml-12 leading-none border rounded text-black border-black hover:border-transparent hover:text-teal-100 hover:bg-teal-700  lg:mt-0"
+                    >
                         Logout
                     </Link>
                 </button>
