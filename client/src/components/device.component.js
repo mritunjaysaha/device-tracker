@@ -9,8 +9,8 @@ const Device = () => {
     const [device, setDevice] = useState({});
     const [message, setMessage] = useState(null);
     const [mac, setMac] = useState("");
-    const [latitude, setLatitude] = useState();
-    const [longitude, setLongitude] = useState();
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
     const [accuracy, setAccuracy] = useState(0);
     const authContext = useContext(AuthContext);
 
@@ -21,54 +21,59 @@ const Device = () => {
         DeviceService.getMac().then((data) => {
             setMac(data.access_token);
         });
+    });
+
+    useEffect(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 console.log("latitude: " + position.coords.latitude);
                 console.log("longitude: " + position.coords.longitude);
                 console.log("accuracy: " + position.coords.accuracy);
-                setLatitude(position.coords.latitude);
+                setLatitude(parseFloat(position.coords.latitude));
 
-                setLongitude(position.coords.longitude);
-                setAccuracy(position.coords.accuracy);
+                setLongitude(parseFloat(position.coords.longitude));
+                setAccuracy(parseFloat(position.coords.accuracy));
             });
         } else {
             alert("Browser does not support geolocation");
         }
-    }, [latitude, longitude, accuracy]);
+    });
 
     useEffect(() => {
-        // if (latitude && longitude) {
-        //     console.log("Empty");
-        //     return;
-        // }
-        mapboxgl.accessToken =
-            "pk.eyJ1IjoibXJpdHVuamF5c2FoYSIsImEiOiJja2I3eXY3N20wYWxsMzFwZ2F4cXY0MmJvIn0.pQKIGfiOkHXQMhyKkCyPHQ";
-        const initializeMap = ({ setMap, mapContainer }) => {
-            console.log("latitude: ", typeof latitude);
-            const map = new mapboxgl.Map({
-                container: mapContainer.current,
-                style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-                center: [91.7387521, 26.1381886],
-                zoom: 14,
-            });
+        console.log(latitude, longitude);
+        if (latitude !== null && longitude !== null) {
+            mapboxgl.accessToken =
+                "pk.eyJ1IjoibXJpdHVuamF5c2FoYSIsImEiOiJja2I3eXY3N20wYWxsMzFwZ2F4cXY0MmJvIn0.pQKIGfiOkHXQMhyKkCyPHQ";
+            const initializeMap = ({ setMap, mapContainer }) => {
+                console.log("latitude: ", typeof latitude);
+                const map = new mapboxgl.Map({
+                    container: mapContainer.current,
+                    style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+                    center: [longitude, latitude],
+                    zoom: 14,
+                });
 
-            map.on("load", () => {
-                setMap(map);
-                map.resize();
-            });
+                map.on("load", () => {
+                    setMap(map);
+                    map.resize();
+                });
 
-            // current device
-            new mapboxgl.Marker({ color: "#ff0000" })
-                .setLngLat([91.7387521, 26.1381886])
-                .setPopup(
-                    new mapboxgl.Popup({ offset: 25 }).setText("Current Device")
-                )
-                .addTo(map);
-        };
-        if (!map) {
-            initializeMap({ setMap, mapContainer });
+                // current device
+                new mapboxgl.Marker({ color: "#ff0000" })
+                    .setLngLat([longitude, latitude])
+                    .setPopup(
+                        new mapboxgl.Popup({ offset: 25 }).setText(
+                            "Current Device"
+                        )
+                    )
+                    .addTo(map);
+            };
+            if (!map) {
+                initializeMap({ setMap, mapContainer });
+            }
         }
-    }, [map]);
+    }, [map, latitude, longitude, accuracy]);
+
     const onSubmit = (e) => {
         e.preventDefault();
         device.mac = mac;
@@ -170,54 +175,6 @@ const Device = () => {
                 </div>
             </section>
         </>
-        // <section className="text-gray-700 body-font">
-        //     <div class="container px-5 py-24 max-w-full">
-        // <form
-        //     onSubmit={onSubmit}
-        //     className="bg-gray-200 rounded-lg p-8 flex flex-col w-1/2"
-        // >
-        //     <input
-        //         className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-        //         type="text"
-        //         name="username"
-        //         onChange={onChange}
-        //         placeholder="Enter Username"
-        //     />
-        //     <p className="pb-2">Device Id</p>
-        //     <input
-        //         className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-        //         type="text"
-        //         name="username"
-        //         value={mac}
-        //         onChange={onMacAddr}
-        //         placeholder="Get mac address"
-        //     />
-        //     <p className="pb-2">Latitude</p>
-
-        //     <input
-        //         className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-        //         type="text"
-        //         name="username"
-        //         value={latitude}
-        //         onChange={onCoordinates}
-        //         placeholder="Latitude"
-        //     />
-        //     <p className="pb-2">Longitude</p>
-        //     <input
-        //         className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
-        //         type="text"
-        //         name="username"
-        //         value={longitude}
-        //         onChange={onCoordinates}
-        //         placeholder="Longitude"
-        //     />
-        //     <button className="text-white bg-teal-500 border-0 py-2 px-8 focus:outline-none hover:bg-teal-600 rounded text-lg">
-        //         ADD Device
-        //     </button>
-        //     {message ? <Message message={message} /> : null}
-        // </form>
-        // </div>
-        // </section>
     );
 };
 
