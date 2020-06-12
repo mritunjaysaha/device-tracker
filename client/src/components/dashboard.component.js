@@ -28,7 +28,7 @@ const Dashboard = () => {
             const lat = position.coords.latitude.toString();
             const long = position.coords.longitude.toString();
             const acc = position.coords.accuracy.toString();
-            if (lat !== latitude && long !== longitude && acc !== accuracy) {
+            if (lat !== latitude || long !== longitude || acc !== accuracy) {
                 console.log({ lat: lat, long: long, acc: acc });
                 DeviceService.postUpdateCoordinates(mac, {
                     latitude: lat,
@@ -45,14 +45,6 @@ const Dashboard = () => {
         setInterval(updateLocation(), 1000);
     }
 
-    const getLog = () => {
-        // console.log(deviceList);
-        deviceList.map((device) => console.log("device: ", device));
-        // console.log(latitude);
-        // console.log(longitude);
-        // console.log(accuracy);
-    };
-
     let list;
     if (deviceList.length > 0) {
         console.log("here ", deviceList);
@@ -66,30 +58,9 @@ const Dashboard = () => {
     } else {
         list = <h1>Hello, World</h1>;
     }
-
-    // watch the position of the device. If the position changes then update the location
-    // if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(function (position) {
-    //         const lat = position.coords.latitude.toString();
-    //         const long = position.coords.longitude.toString();
-    //         const acc = position.coords.accuracy.toString();
-    //         if (lat !== latitude && long !== longitude && acc !== accuracy) {
-    //             console.log({ lat: lat, long: long, acc: acc });
-    //             DeviceService.postUpdateCoordinates(mac, {
-    //                 latitude: lat,
-    //                 longitude: long,
-    //                 accuracy: acc,
-    //             });
-    //         }
-    //     });
-    // }
     return (
         <div>
             <section className="text-gray-700 body-font relative">
-                <h1 className="dashboard__header">Dashboard</h1>
-                <div className="container px-5 py-12 mx-auto flex">
-                    <button onClick={getLog}>LOG</button>
-                </div>
                 {list}
             </section>
         </div>

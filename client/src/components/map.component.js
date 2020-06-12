@@ -2,11 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import DeviceService from "../services/DeviceService";
 import "../styles/marker.css";
-const styles = {
-    width: "100vw",
-    height: "calc(100vh - 80px)",
-    position: "absolute",
-};
 
 const MapboxGLMap = () => {
     const [map, setMap] = useState(null);
