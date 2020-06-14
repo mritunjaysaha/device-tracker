@@ -21,9 +21,6 @@ const Navbar = () => {
         return (
             <>
                 <Link className="mr-5  hover:text-gray-900" to="/">
-                    Home
-                </Link>
-                <Link className="mr-5  hover:text-gray-900" to="/login">
                     Login
                 </Link>
                 <Link className="mr-5  hover:text-gray-900" to="/register">

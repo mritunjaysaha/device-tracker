@@ -81,7 +81,7 @@ router.post(
 );
 
 router.post(
-    "/login",
+    "/",
     [check("username").isEmail(), check("password").isLength({ min: 1 })],
     (req, res) => {
         const errors = validationResult(req);

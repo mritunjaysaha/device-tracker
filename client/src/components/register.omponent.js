@@ -30,7 +30,7 @@ const Register = (props) => {
             setMessage(message);
             if (message.msgError === false) {
                 timerID = setTimeout(() => {
-                    props.history.push("/login");
+                    props.history.push("/");
                 }, 2000);
             }
         });
