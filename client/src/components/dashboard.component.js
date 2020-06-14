@@ -49,7 +49,7 @@ const Dashboard = () => {
     if (deviceList.length > 0) {
         console.log("here ", deviceList);
         list = (
-            <div>
+            <div className="device-container">
                 {deviceList.map((device) => {
                     return <DeviceItem key={device._id} device={device} />;
                 })}
@@ -58,12 +58,11 @@ const Dashboard = () => {
     } else {
         list = <h1>Hello, World</h1>;
     }
+
     return (
-        <div>
-            <section className="text-gray-700 body-font relative">
-                {list}
-            </section>
-        </div>
+        <>
+            <div className="container">{list}</div>
+        </>
     );
 };
 

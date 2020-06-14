@@ -1,0 +1,35 @@
+body {
+    background-color: #cee;
+}
+.container {
+    margin: 0;
+}
+.device-container {
+    margin: 1em 0;
+    display: flex;
+    flex-direction: row;
+}
+.device-card {
+    background-color: #eeeeff;
+    margin: 0 0 1em 1em;
+    padding: 1em;
+
+    /* flex: 0 0 20%; */
+    align-items: center;
+    text-align: left;
+    max-width: 25%;
+    border-radius: 5px;
+    box-shadow: -14px 15px 26px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 768px) {
+    .device-container {
+        flex-direction: column;
+    }
+    .device-card {
+        background-color: #fff;
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: 90%;
+    }
+}
