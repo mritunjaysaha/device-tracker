@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DeviceService from "../services/DeviceService";
 import DeviceItem from "./deviceItem.component";
-
 const Dashboard = () => {
     const [deviceList, setDeviceList] = useState([]);
     // last values of the current device
@@ -44,14 +43,27 @@ const Dashboard = () => {
     if (navigator.geolocation) {
         setInterval(updateLocation(), 1000);
     }
-
+    function deleteDevice(key) {
+        console.log("_id: ", key);
+        const filteredDeviceList = deviceList.filter(
+            (device) => device._id !== key
+        );
+        DeviceService.deleteDevice(key).then((data) => console.log(data));
+        setDeviceList(filteredDeviceList);
+    }
     let list;
     if (deviceList.length > 0) {
         console.log("here ", deviceList);
         list = (
             <div className="device-container">
                 {deviceList.map((device) => {
-                    return <DeviceItem key={device._id} device={device} />;
+                    return (
+                        <DeviceItem
+                            key={device._id}
+                            device={device}
+                            deleteItem={deleteDevice}
+                        />
+                    );
                 })}
             </div>
         );

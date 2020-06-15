@@ -1,5 +1,5 @@
 body {
-    background-color: #cee;
+    background-color: rgb(226, 236, 236);
 }
 .container {
     margin: 0;
@@ -10,16 +10,21 @@ body {
     flex-direction: row;
 }
 .device-card {
-    background-color: #eeeeff;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
     margin: 0 0 1em 1em;
+    border-radius: 5px;
+}
+.device-card-details {
     padding: 1em;
-
-    /* flex: 0 0 20%; */
     align-items: center;
     text-align: left;
-    max-width: 25%;
-    border-radius: 5px;
-    box-shadow: -14px 15px 26px 0px rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid black;
+}
+.uil {
+    font-size: 1.2em;
+    padding: 0.5em 0 1em 0;
 }
 
 @media screen and (max-width: 768px) {
@@ -27,9 +32,6 @@ body {
         flex-direction: column;
     }
     .device-card {
-        background-color: #fff;
-        flex-direction: row;
-        flex-wrap: wrap;
         max-width: 90%;
     }
 }

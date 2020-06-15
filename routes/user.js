@@ -229,4 +229,10 @@ router
             }
         );
     });
+
+router.route("/:id").delete((req, res) => {
+    Device.findByIdAndDelete(req.params.id)
+        .then(() => res.json(res.json("Device deleted")))
+        .catch((err) => res.json("Error: ", err));
+});
 module.exports = router;

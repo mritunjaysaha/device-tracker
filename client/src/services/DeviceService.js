@@ -59,4 +59,13 @@ export default {
             }
         });
     },
+    deleteDevice: (id) => {
+        return fetch(`/user/${id}`, {
+            method: "delete",
+        })
+            .then((res) => {
+                return res.json().then((data) => data);
+            })
+            .catch((err) => console.log(err));
+    },
 };
