@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { AuthContext } from "../context/AuthContext";
 
@@ -17,7 +17,7 @@ const Navbar = () => {
         });
     };
 
-    const unauthenticatedNavBar = () => {
+    function unauthenticatedNavBar() {
         return (
             <>
                 <Link className="mr-5  hover:text-gray-900" to="/">
@@ -28,11 +28,12 @@ const Navbar = () => {
                 </Link>
             </>
         );
-    };
+    }
 
-    const authenticatedNavBar = () => {
+    function authenticatedNavBar() {
         return (
             <>
+                <Redirect to="/dashboard" />
                 <Link to="/dashboard" className="mr-5 mt-1 hover:text-gray-900">
                     Dashboard
                 </Link>
@@ -53,7 +54,7 @@ const Navbar = () => {
                 </button>
             </>
         );
-    };
+    }
 
     return (
         <header className="body-font bg-teal-400 z-20">

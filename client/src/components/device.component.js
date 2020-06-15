@@ -17,7 +17,7 @@ const Device = () => {
     const [map, setMap] = useState(null);
     const mapContainer = useRef(null);
 
-    useEffect(() => {
+    function getLocationCoordinates() {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 setLatitude(parseFloat(position.coords.latitude));
@@ -28,13 +28,15 @@ const Device = () => {
         } else {
             alert("Browser does not support geolocation");
         }
-    });
+    }
+    useEffect(() => getLocationCoordinates());
 
-    useEffect(() => {
+    function getMacAddress() {
         DeviceService.getMac().then((data) => {
             setMac(data.access_token);
         });
-    });
+    }
+    useEffect(() => getMacAddress);
 
     useEffect(() => {
         if (latitude !== null && longitude !== null) {
@@ -96,23 +98,21 @@ const Device = () => {
         });
     };
 
-    function getDeviceID() {}
-
-    const onDeviceName = (e) => {
+    function onDeviceName(e) {
         setDevice({ name: e.target.value });
-    };
+    }
 
-    const resetForm = () => {
+    function resetForm() {
         setDevice({ name: "" });
-    };
+    }
 
-    const onMacAddr = (e) => {
+    function onMacAddr(e) {
         setMac({ mac: e.target.value });
-    };
-    const onCoordinates = (e) => {
+    }
+    function onCoordinates(e) {
         setLatitude({ lat: e.target.value });
         setLongitude({ lng: e.target.value });
-    };
+    }
 
     return (
         <>
@@ -146,12 +146,15 @@ const Device = () => {
                         />
                         <button
                             className="w-1/2 bg-transparent mb-4 hover:bg-teal-500 text-teal-700 font-semibold focus:outline-none hover:text-white py-2 px-4 border border-teal-500 hover:border-transparent rounded"
-                            onClick={getDeviceID}
+                            onClick={getMacAddress}
                         >
                             Device ID
                         </button>
                     </div>
-                    <button className="bg-transparent mb-4 hover:bg-teal-500 text-teal-700 font-semibold focus:outline-none hover:text-white py-2 px-4 border border-teal-500 hover:border-transparent rounded">
+                    <button
+                        className="bg-transparent mb-4 hover:bg-teal-500 text-teal-700 font-semibold focus:outline-none hover:text-white py-2 px-4 border border-teal-500 hover:border-transparent rounded"
+                        onClick={getLocationCoordinates}
+                    >
                         Get Coordinates
                     </button>
 
