@@ -65,7 +65,7 @@ const Dashboard = () => {
     } else {
         list = (
             <div className="w-full text-center bg-gray-300 p-8 rounded">
-                <h1>No devices. Add a device</h1>
+                <h1>No devices</h1>
                 <button className="text-white bg-teal-500 border-0 m-1 py-1 px-6 focus:outline-none hover:bg-teal-800 rounded text-lg">
                     <Link to="/devices">Add Device</Link>
                 </button>

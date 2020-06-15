@@ -136,32 +136,32 @@ const Device = () => {
                     </h2>
 
                     <input
-                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4"
+                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                         placeholder="Device Name"
                         type="text"
                         onChange={onDeviceName}
                     />
                     <div>
                         <input
-                            className="bg-white w-1/2 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4"
+                            className="bg-white w-1/2 rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                             placeholder="Device ID"
                             type="text"
                             value={mac}
                             onChange={onMacAddr}
                         />
                         <button
-                            className="w-1/2 bg-transparent mb-4 hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-2 px-4 border border-teal-500 hover:border-transparent rounded"
+                            className="w-1/2 bg-transparent mb-4 hover:bg-teal-500 text-teal-700 font-semibold focus:outline-none hover:text-white py-2 px-4 border border-teal-500 hover:border-transparent rounded"
                             onClick={getDeviceID}
                         >
                             Device ID
                         </button>
                     </div>
-                    <button className="bg-transparent mb-4 hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-2 px-4 border border-teal-500 hover:border-transparent rounded">
+                    <button className="bg-transparent mb-4 hover:bg-teal-500 text-teal-700 font-semibold focus:outline-none hover:text-white py-2 px-4 border border-teal-500 hover:border-transparent rounded">
                         Get Coordinates
                     </button>
 
                     <input
-                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4"
+                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                         placeholder="Latitude"
                         type="text"
                         value={latitude}
@@ -169,7 +169,7 @@ const Device = () => {
                     />
 
                     <input
-                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2 mb-4"
+                        className="bg-white rounded border border-gray-400 focus:outline-none focus:border-teal-500 text-base px-4 py-2 mb-4"
                         placeholder="Longitude"
                         type="text"
                         value={longitude}

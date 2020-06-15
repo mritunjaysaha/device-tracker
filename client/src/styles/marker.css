@@ -15,6 +15,6 @@
 }
 @media (max-width: 768px) {
     .add-device-padding-y {
-        padding: 1em 0;
+        padding: 0;
     }
 }
