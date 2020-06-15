@@ -39,7 +39,7 @@ const Navbar = () => {
                 </Link>
 
                 <Link to="/devices" className="mr-5 mt-1 hover:text-gray-900">
-                    Devices
+                    Add Device
                 </Link>
                 <Link className="mr-5 mt-1 hover:text-gray-900" to="/map">
                     Map
