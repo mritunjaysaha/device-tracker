@@ -20,9 +20,6 @@ const Device = () => {
     useEffect(() => {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                console.log("latitude: " + position.coords.latitude);
-                console.log("longitude: " + position.coords.longitude);
-                console.log("accuracy: " + position.coords.accuracy);
                 setLatitude(parseFloat(position.coords.latitude));
 
                 setLongitude(parseFloat(position.coords.longitude));
@@ -40,12 +37,10 @@ const Device = () => {
     });
 
     useEffect(() => {
-        console.log(latitude, longitude);
         if (latitude !== null && longitude !== null) {
             mapboxgl.accessToken =
                 "pk.eyJ1IjoibXJpdHVuamF5c2FoYSIsImEiOiJja2I3eXY3N20wYWxsMzFwZ2F4cXY0MmJvIn0.pQKIGfiOkHXQMhyKkCyPHQ";
             const initializeMap = ({ setMap, mapContainer }) => {
-                console.log("latitude: ", typeof latitude);
                 const map = new mapboxgl.Map({
                     container: mapContainer.current,
                     style: "mapbox://styles/mapbox/streets-v11", // stylesheet location

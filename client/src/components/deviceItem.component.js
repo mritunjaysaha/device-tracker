@@ -19,9 +19,15 @@ function DeviceItem(props) {
                     <h2 className="text-gray-900 title-font font-medium">
                         {props.device.name}
                     </h2>
-                    <p className="text-gray-500">{props.device.latitude}</p>
-                    <p className="text-gray-500">{props.device.longitude}</p>
-                    <p className="text-gray-500">{props.device.accuracy}</p>
+                    <p className="text-gray-500">
+                        Latitude: {props.device.latitude}
+                    </p>
+                    <p className="text-gray-500">
+                        Longitude: {props.device.longitude}
+                    </p>
+                    <p className="text-gray-500">
+                        Accuracy: {props.device.accuracy}
+                    </p>
                     <hr />
 
                     <button
