@@ -15,7 +15,6 @@ const Dashboard = () => {
         });
         if (mac !== null) {
             DeviceService.getCoordinates(mac).then((data) => {
-                console.log("here ", data);
                 setLatitude(data.latitude);
                 setLongitude(data.longitude);
                 setAccuracy(data.accuracy);
@@ -29,14 +28,11 @@ const Dashboard = () => {
             const long = position.coords.longitude.toString();
             const acc = position.coords.accuracy.toString();
             if (lat !== latitude || long !== longitude || acc !== accuracy) {
-                console.log({ lat: lat, long: long, acc: acc });
                 DeviceService.postUpdateCoordinates(mac, {
                     latitude: lat,
                     longitude: long,
                     accuracy: acc,
                 });
-            } else {
-                console.log("same");
             }
         });
     };
@@ -45,16 +41,14 @@ const Dashboard = () => {
         setInterval(updateLocation(), 1000);
     }
     function deleteDevice(key) {
-        console.log("_id: ", key);
         const filteredDeviceList = deviceList.filter(
             (device) => device._id !== key
         );
-        DeviceService.deleteDevice(key).then((data) => console.log(data));
+        DeviceService.deleteDevice(key);
         setDeviceList(filteredDeviceList);
     }
     let list;
     if (deviceList.length > 0) {
-        console.log("here ", deviceList);
         list = (
             <>
                 {deviceList.map((device) => {
@@ -70,7 +64,7 @@ const Dashboard = () => {
         );
     } else {
         list = (
-            <div className="device-container">
+            <div className="w-full text-center bg-gray-300 p-8 rounded">
                 <h1>No devices. Add a device</h1>
                 <button className="text-white bg-teal-500 border-0 m-1 py-1 px-6 focus:outline-none hover:bg-teal-800 rounded text-lg">
                     <Link to="/devices">Add Device</Link>

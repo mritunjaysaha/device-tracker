@@ -20,7 +20,7 @@ const Login = (props) => {
             if (isAuthenticated) {
                 authContext.setUser(user);
                 authContext.setIsAuthenticated(isAuthenticated);
-                props.history.push("/devices");
+                props.history.push("/dashboard");
             } else {
                 setMessage(message);
                 resetForm();
