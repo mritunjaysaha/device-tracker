@@ -14,7 +14,7 @@ function DeviceItem(props) {
         //     </button>
         // </div>
         <div className="p-2 lg:w-1/3 md:w-1/2 w-full">
-            <div className="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <div className="h-full flex items-center border-gray-200 border p-4 pb-0 rounded-lg">
                 <div className="flex-grow">
                     <h2 className="text-gray-900 title-font font-medium">
                         {props.device.name}
@@ -31,7 +31,7 @@ function DeviceItem(props) {
                     <hr className="mt-4" />
 
                     <button
-                        className="text-center w-full pt-2"
+                        className="text-center w-full py-2 hover:bg-red-300 rounded"
                         onClick={() => props.deleteItem(props.device._id)}
                     >
                         <i className="uil uil-trash text-xl"></i>
