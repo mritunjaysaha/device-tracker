@@ -28,7 +28,7 @@ function DeviceItem(props) {
                     <p className="text-gray-500">
                         Accuracy: {props.device.accuracy}
                     </p>
-                    <hr />
+                    <hr className="mt-4" />
 
                     <button
                         className="text-center w-full pt-2"
