@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import AuthService from "../services/AuthService";
 import { AuthContext } from "../context/AuthContext";
 
@@ -8,11 +8,16 @@ const Navbar = () => {
         AuthContext
     );
 
+    // const history = useHistory();
+    // if (isAuthenticated) {
+    //     history.push("/dashboard");
+    // }
     const onClickLogoutHandler = () => {
         AuthService.logout().then((data) => {
             if (data.success) {
                 setUser(data.user);
                 setIsAuthenticated(false);
+                // history.push("/");
             }
         });
     };
@@ -20,6 +25,7 @@ const Navbar = () => {
     function unauthenticatedNavBar() {
         return (
             <>
+                <Redirect to="/" />
                 <Link className="mr-5  hover:text-gray-900" to="/">
                     Login
                 </Link>
@@ -31,9 +37,10 @@ const Navbar = () => {
     }
 
     function authenticatedNavBar() {
+        console.log(isAuthenticated);
+
         return (
             <>
-                <Redirect to="/dashboard" />
                 <Link to="/dashboard" className="mr-5 mt-1 hover:text-gray-900">
                     Dashboard
                 </Link>
