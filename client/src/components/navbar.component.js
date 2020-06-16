@@ -8,10 +8,10 @@ const Navbar = () => {
         AuthContext
     );
 
-    // const history = useHistory();
-    // if (isAuthenticated) {
-    //     history.push("/dashboard");
-    // }
+    const history = useHistory();
+    if (isAuthenticated) {
+        history.push("/dashboard");
+    }
     const onClickLogoutHandler = () => {
         AuthService.logout().then((data) => {
             if (data.success) {
