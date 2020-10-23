@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const app = express();
+const authRoutes = require("./routes/auth");
 
 // Database connection
 mongoose.connect(process.env.DB, {
@@ -26,12 +27,11 @@ app.use(cors());
 
 // My Routes
 app.get("/", (req, res) => res.send("Server is up and running"));
-
+app.use("/api/auth", authRoutes);
 // PORT
 const PORT = process.env.PORT || 8000;
 
 // Starting a server
-
 app.listen(PORT, () => {
     console.log(`app is running at http://localhost:${PORT}`);
 });
