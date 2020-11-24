@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
 
-const { signup } = require("../controllers/auth");
-
-router.get("/test", (req, res) => res.send("kasjkal"));
+const { signup, signin, signout, isSignedIn } = require("../controllers/auth");
 
 router.post(
     "/signup",
@@ -13,7 +11,7 @@ router.post(
             "name",
             "Name should be between 3 to 32 characters long"
         ).isLength({
-            min: 3,
+            min: 2,
             max: 32,
         }),
         check("email", "email is required").isEmail(),
@@ -24,5 +22,16 @@ router.post(
     ],
     signup
 );
+
+router.post(
+    "/signin",
+    [
+        check("email", "email is required").isEmail(),
+        check("password", "password field is required").isLength({ min: 1 }),
+    ],
+    signin
+);
+
+router.get("/singout", signout);
 
 module.exports = router;
