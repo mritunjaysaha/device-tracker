@@ -27,7 +27,7 @@ app.use(cors());
 
 // My Routes
 app.get("/", (req, res) => res.send("Server is up and running"));
-app.use("/api/auth", authRoutes);
+app.use("/api", authRoutes);
 // PORT
 const PORT = process.env.PORT || 8000;
 
